@@ -1,0 +1,47 @@
+site_name: Williamdepig的笔记本
+site_url: https://note.williamdepig.cc/
+
+
+nav:
+  - home: index.md
+  - math and science:
+    - 普通物理学Ⅰ: 
+      - physics/General_Physics_1/index.md
+      - 力学: physics/General_Physics_1/Mechanics.md
+      - 狭义相对论: physics/General_Physics_1/special_relativity.md
+      - 热学: physics/General_Physics_1/thermology.md
+    - 普通物理学Ⅱ: 
+      - physics/General_Physics_2/index.md
+      - 电磁学: physics/General_Physics_2/Electromagnetism.md
+
+
+
+theme:
+  name: material
+  favicon: 'assert/ico/favicon.png'
+  # icon:
+  #   repo: fontawesome/brands/github
+  #   logo: material/notebook-outline
+  palette:
+    - scheme: default
+      primary: white
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - content.code.annotate
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - content.code.copy
+  font: false
+
+
