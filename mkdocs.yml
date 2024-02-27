@@ -16,6 +16,7 @@ nav:
 
 
 
+
 theme:
   name: material
   favicon: 'assert/ico/favicon.png'
@@ -44,4 +45,96 @@ theme:
     - content.code.copy
   font: false
 
+# theme: 
+#   name: 'material'
+#   language: 'zh'
+#   icon: 
+#     logo: material/notebook-outline
+#   custom_dir: overrides
+#   features:
+#     - content.code.annotate
+#     - navigation.tracking
+#     - navigation.tabs
+#     - navigation.indexes
+#     - navigation.top
+#   font: false
+#   palette:
+#     - scheme: default
 
+
+# markdown_extensions:
+#   # Python Markdown
+#   - abbr
+#   - admonition
+#   - attr_list
+#   - def_list
+#   - footnotes
+#   - md_in_html
+#   - toc:
+#       permalink: true
+#   # Python Markdown Extensions
+#   - pymdownx.arithmatex:
+#       generic: true
+#   - pymdownx.betterem:
+#       smart_enable: all
+#   - pymdownx.caret
+#   - pymdownx.details
+#   - pymdownx.highlight
+#   - pymdownx.inlinehilite
+#   - pymdownx.keys
+#   - pymdownx.mark
+#   - pymdownx.smartsymbols
+#   - pymdownx.superfences
+#   - pymdownx.tabbed:
+#       alternate_style: true
+#   - pymdownx.tasklist:
+#       custom_checkbox: true
+#   - pymdownx.tilde
+#   - pymdownx.arithmatex:
+#       generic: true
+#   - neoteroi.cards # install using `pip install neoteroi-mkdocs`
+markdown_extensions:
+  - toc:
+      permalink: true
+      toc_depth: 4
+  - meta
+  - def_list
+  - attr_list
+  - md_in_html
+  - sane_lists
+  - admonition
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.snippets
+  - pymdownx.magiclink
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true 
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.arithmatex:
+      generic: true
+extra_javascript:
+  # - javascripts/mathjax.js
+  - javascripts/katex.js
+  # - https://polyfill.io/v3/polyfill.min.js?features=es6
+  # - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
+
+
+# markdown_extensions:
+#   - pymdownx.arithmatex:
+#       generic: true
+
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
