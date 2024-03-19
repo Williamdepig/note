@@ -7,14 +7,26 @@ nav:
   - math and science:
     - 普通物理学Ⅰ: 
       - physics/General_Physics_1/index.md
-      - 力学: physics/General_Physics_1/Mechanics.md
-      - 狭义相对论: physics/General_Physics_1/special_relativity.md
-      - 热学: physics/General_Physics_1/thermology.md
+      - 力学: 
+        - physics/General_Physics_1/Mechanics/index.md
     - 普通物理学Ⅱ: 
       - physics/General_Physics_2/index.md
-      - 电磁学: physics/General_Physics_2/Electromagnetism.md
-
-
+      - 电磁学:
+        - physics/General_Physics_2/Electromagnetism/index.md
+        - 静电学: physics/General_Physics_2/Electromagnetism/Electrostatics.md
+        - 高斯定律的应用与经典静电场模型: physics/General_Physics_2/Electromagnetism/GaussLaw.md
+        - 静电能*: physics/General_Physics_2/Electromagnetism/ElectrostaticEnergy.md
+        - 电容器与电介质: physics/General_Physics_2/Electromagnetism/Capacitor.md
+        - 稳恒电流: physics/General_Physics_2/Electromagnetism/Current.md
+        - 静磁学: physics/General_Physics_2/Electromagnetism/Magnetostatics.md
+        - 电磁感应: physics/General_Physics_2/Electromagnetism/ElectromagneticInduction.md
+        - 麦克斯韦方程组: physics/General_Physics_2/Electromagnetism/Maxwell.md
+        - 电磁波: physics/General_Physics_2/Electromagnetism/EMWave.md
+  - Computer Science:
+    - 计算机系统:
+      - 计算机系统Ⅲ:
+        - cs/system/sys3/chapter1.md
+        - cs/system/sys3/chapter2.md
 
 
 theme:
