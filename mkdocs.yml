@@ -9,6 +9,9 @@ nav:
       - physics/General_Physics_1/index.md
       - 力学: 
         - physics/General_Physics_1/Mechanics/index.md
+      - 热学:
+        - physics/General_Physics_1/Thermology/index.md
+        - 基本概念: physics/General_Physics_1/Thermology/BasicConcepts.md
     - 普通物理学Ⅱ: 
       - physics/General_Physics_2/index.md
       - 电磁学:
