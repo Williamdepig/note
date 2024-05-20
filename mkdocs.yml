@@ -25,6 +25,9 @@ nav:
         - 电磁感应: physics/General_Physics_2/Electromagnetism/ElectromagneticInduction.md
         - 麦克斯韦方程组: physics/General_Physics_2/Electromagnetism/Maxwell.md
         - 电磁波: physics/General_Physics_2/Electromagnetism/EMWave.md
+      - 量子力学:
+        - physics/General_Physics_2/Quantum_Mechanics/index.md
+        - 量子行为: physics/General_Physics_2/Quantum_Mechanics/behavior.md
   - Computer Science:
     - 计算机系统:
       - 计算机系统Ⅲ:
