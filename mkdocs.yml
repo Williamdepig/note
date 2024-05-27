@@ -33,6 +33,7 @@ nav:
       - 计算机系统Ⅲ:
         - cs/system/sys3/chapter1.md
         - cs/system/sys3/chapter2.md
+        # - cs/system/sys3/hw2.md
 
 
 theme:

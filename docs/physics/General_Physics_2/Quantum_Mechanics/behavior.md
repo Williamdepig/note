@@ -6,19 +6,19 @@ comment: True
 # 量子行为
 
 !!! info 简介
-    我们将先把基本的量子概念向各位作出阐述，逐步推导出薛定谔方程与哈密顿算符，再介绍其在量子当中的实际物理意义。
+    我们将先把基本的量子概念向各位作出阐述，逐步推导出薛定谔方程与哈密顿算符，再介绍其实际物理意义。
 
 ## 量子力学第一原理
 
 ### 原理内容
 
-1. 理想实验中，某个事件的发生概率由一个复数 $\phi$ 给出，$\phi$ 被称为概率幅(Probability Amplitudes)。
+1. 理想实验中，某个事件的发生概率由一个复数 $\varphi$ 给出，$\varphi$ 被称为概率幅(Probability Amplitudes)。
 
 $$
 \begin{aligned}
-P &= probability\\
-\phi &= probability\ amplitude\\
-P &= |\phi|^2
+P &= \mathrm{probability}\\
+\varphi &= \mathrm{probability\ amplitude}\\
+P &= |\varphi|^2
 \end{aligned}
 $$
 
@@ -26,15 +26,15 @@ $$
 
 $$
 \begin{aligned}
-\phi &= \phi_1+\phi_2\\
-P &= |\phi_1+\phi_2|^2
+\varphi &= \varphi_1+\varphi_2\\
+P &= |\varphi_1+\varphi_2|^2
 \end{aligned}
 $$
 
 3. 但如果在实验过程中对事件发生了**观测(observation)**，以至于能够确定事件以什么方式发生，那么干涉就会消失，事件整体的发生概率就会变成简单的相加。
 
 $$
-P=P_1+P_2=|\phi_1|^2+|\phi_2|^2
+P=P_1+P_2=|\varphi_1|^2+|\varphi_2|^2
 $$
 
 ### 电子的理想干涉实验
@@ -45,7 +45,7 @@ $$
 
 - 接收器接收到每个电子时，获得的信号强度是相同的，**结论**：电子总以“粒子”的形式到达。
 - 遮住缝 2 或者缝 1，接收器在后障上探测到的强度分布如 $P_1$ 或 $P_2$ 所示，其表征了电子到达后障的概率分布。同时打开缝 1 和缝 2，接收器在后障上探测到的强度分布如 $P_{12}$ 所示，显然，$P_{12} \neq P_1 + P_2$，这表明电子在穿过双缝时发生了干涉。这难以用常识或者经典物理学解释，电子的运动很“神秘”。**结论**：电子并不是要么通过缝 1 要么通过缝 2，即当事件可以以多种方式发生时，我们不能断言过程中事件会以**某个**方式发生。
-- 但是在数学上解释这个现象是却相当容易，我们可以用复数 $\phi$ 来描述电子的概率幅，即缝 1 开放时电子的概率幅为 $\phi_1$，缝 2 开放的概率幅为 $\phi_2$，那么电子通过双缝的概率幅为 $\phi_{12} = \phi_1 + \phi_2$，电子通过双缝的概率为 $P_{12} = |\phi_{12}|^2$，这就是干涉现象的数学描述。**结论**：电子到达后障的概率分布就如同“波”的分布一样。
+- 但是在数学上解释这个现象是却相当容易，我们可以用复数 $\varphi$ 来描述电子的概率幅，即缝 1 开放时电子的概率幅为 $\varphi_1$，缝 2 开放的概率幅为 $\varphi_2$，那么电子通过双缝的概率幅为 $\varphi_{12} = \varphi_1 + \varphi_2$，电子通过双缝的概率为 $P_{12} = |\varphi_{12}|^2$，这就是干涉现象的数学描述。**结论**：电子到达后障的概率分布就如同“波”的分布一样。
 
 这就是电子的**波粒二象性(wave-particle duality)**。
 
@@ -111,11 +111,11 @@ $$ \frac{1}{L} = \frac{\Delta\lambda}{\lambda^2} = \Delta\left(\frac{1}{\lambda}
 我们曾经学过经典的玻尔的氢原子模型，其应用了角动量量子化的条件；现在我们可以用不确定关系来做相似的推导，以得到氢原子基态能量 $E=-13.60\ \mathrm{eV}$ 和氢原子经典半径 $a_0=0.528\ \mathrm{\AA}$。
 
 假定电子运动半径的量级大致为 $a$ (显然不可能精准获得电子半径)，则电子动量的弥散范围即为 $\hbar/a$，则电子动量的量级也大致就为 $\hbar/a$。因此就有氢原子系统总能量:
-$$ E=\frac{p^2}{2m}-\frac{e^2}{4\pi\epsilon_0 a}=\frac{\hbar^2}{2ma^2}-\frac{e^2}{4\pi\epsilon_0 a}. $$
+$$ E=\frac{p^2}{2m}-\frac{e^2}{4\pi\varepsilon_0 a}=\frac{\hbar^2}{2ma^2}-\frac{e^2}{4\pi\varepsilon_0 a}. $$
 
 在稳定状态下，能量趋于最小，这样的物理直觉依然是类似的。$$ \frac{\mathrm{d}E}{\mathrm{d}a}=0. $$
-即可推出氢原子半径，也就是所谓的**玻尔半径(Bohr radius)** $$ a=\frac{4\pi\epsilon_0\hbar^2}{me^2}=0.528\times 10^{-10}=0.528\\ \mathrm{\AA}. $$
-代入能量可得氢原子基态能量 $$ E_0=-\frac{me^4}{32\pi^2\epsilon_0^2\hbar^2}=-13.60\\ \mathrm{eV}. $$
+即可推出氢原子半径，也就是所谓的**玻尔半径(Bohr radius)** $$ a=\frac{4\pi\varepsilon_0\hbar^2}{me^2}=0.528\times 10^{-10}=0.528\\ \mathrm{\AA}. $$
+代入能量可得氢原子基态能量 $$ \varepsilon_0=-\frac{me^4}{32\pi^2\varepsilon_0^2\hbar^2}=-13.60\\ \mathrm{eV}. $$
 
 ## 量子力学的数学基础
 
@@ -125,7 +125,7 @@ $$ E=\frac{p^2}{2m}-\frac{e^2}{4\pi\epsilon_0 a}=\frac{\hbar^2}{2ma^2}-\frac{e^2
 ### 概率幅的数学符号
 
 ![电子干涉](/assets/images/physics/General_Physics_2/Quantum_Mechanics/electron_interference.png)
-对于从电子枪 $s$ 出发，到达后障上 $x$ 处的电子，我们用这种符号表示其概率幅。 $$ \phi=\langle x | s \rangle. $$
+对于从电子枪 $s$ 出发，到达后障上 $x$ 处的电子，我们用这种符号表示其概率幅。 $$ \varphi=\langle x | s \rangle. $$
 其中竖线右边的表达式表示初始状态，左边表示终末状态。至于其实际的数学内涵，我们会在下一节讨论，目前暂且先使用物理内涵来理解这种符号。
 
 接下来介绍两条原理：
@@ -139,7 +139,7 @@ $$ E=\frac{p^2}{2m}-\frac{e^2}{4\pi\epsilon_0 a}=\frac{\hbar^2}{2ma^2}-\frac{e^2
 
 此外，还有一条**附加原理**：
 
-- 两个不存在相互作用的粒子各自达到某一状态的概率幅为各自概率幅之积。 $$ \phi=\langle a | s_1 \rangle\langle b | s_2 \rangle. $$
+- 两个不存在相互作用的粒子各自达到某一状态的概率幅为各自概率幅之积。 $$ \varphi=\langle a | s_1 \rangle\langle b | s_2 \rangle. $$
 
 由于这些叠加性质，我们只要知道粒子在双缝处的概率幅 $\langle 1 | s \rangle$ 与 $\langle 2 | s \rangle$，就足以推出在后障上的概率幅分布，也就能做到“预测”未来，而不需去考虑到达双缝前的粒子状态。
 
@@ -284,7 +284,7 @@ $$
 粒子通过一个 +S 装置和一个 +T 装置后，再通过一个 0S 装置(为作区别，在图中用 S' 表示)，会有粒子出射吗？
 
 答案是会的，粒子通过 +T 装置后成为一束纯化射线，之后的行为与先前无关，使用概率幅能很好地理解，
-$$ \phi=\braket{+S | +T}\braket{+T | 0S}. $$
+$$ \varphi=\braket{0S | +T}\braket{+T | +S}. $$
 显然这并不为零，通过 T 的粒子会重新取向，而粒子在进入 T 装置前的状态只决定从 T 装置出射粒子的数目，不影响出射粒子的状态与行为。
 
 #### 基础态(base state)
@@ -337,8 +337,8 @@ $$
 $$ \sum_{i 遍及 T 的基础态}\braket{0S\enspace|\enspace i}\braket{i\enspace| +S} = \braket{0S\enspace| +S}=0. $$
 $$ \sum_{i 遍及 T 的基础态}\braket{+S\enspace|\enspace i}\braket{i\enspace| +S} = \braket{+S\enspace| +S}=1. $$
 
-这可以推广到普遍的形式，设 $\phi$ 和 $\chi$ 为粒子的始态和末态，有以下等式成立
-$$ \braket{\chi|\phi} = \sum_{i} \braket{\chi|i}\braket{i|\phi}. $$
+这可以推广到普遍的形式，设 $\varphi$ 和 $\chi$ 为粒子的始态和末态，有以下等式成立
+$$ \braket{\chi|\varphi} = \sum_{i} \braket{\chi|i}\braket{i|\varphi}. $$
 需要注意， $i$ 遍及某一过滤器的所有基础态，更专业一点的说法是**在某一组表象(representation)中的**基础态。
 
 还有一条性质也理当导出。之前我们写出了一组基础态概率和为 1 的式子
@@ -350,7 +350,7 @@ $$
 \end{aligned}
 $$
 
-对于 $\braket{\chi|\phi}$，取 $\chi$、$\phi$ 均为 +S，展开有
+对于 $\braket{\chi|\varphi}$，取 $\chi$、$\varphi$ 均为 +S，展开有
 
 $$
 \begin{aligned}
@@ -372,31 +372,31 @@ $$
 综上就可以导出概率幅的三条性质：
 
 1. 基础态两两正交：$ \braket{j | i}=\delta_{ij}. $
-2. 基础态的完全分解：$ \braket{\chi|\phi} = \sum\limits_i \braket{\chi|i}\braket{i|\phi}. $
-3. 共轭对称性：$ \braket{\chi|\phi} =\braket{\phi|\chi}^*. $
+2. 基础态的完全分解：$ \braket{\chi|\varphi} = \sum\limits_i \braket{\chi|i}\braket{i|\varphi}. $
+3. 共轭对称性：$ \braket{\chi|\varphi} =\braket{\varphi|\chi}^*. $
 
 ### 态矢量(state vector)
 
-或许各位早已发现，比对概率幅的分解 $$ \braket{\chi|\phi} = \sum_i \braket{\chi|i}\braket{i|\phi}, $$ 与两个矢量的内积 $$ \boldsymbol{B\cdot A}=\sum_i (\boldsymbol{B\cdot e_i})(\boldsymbol{e_i\cdot A}), $$
+或许各位早已发现，比对概率幅的分解 $$ \braket{\chi|\varphi} = \sum_i \braket{\chi|i}\braket{i|\varphi}, $$ 与两个矢量的内积 $$ \boldsymbol{B\cdot A}=\sum_i (\boldsymbol{B\cdot \varepsilon_i})(\boldsymbol{\varepsilon_i\cdot A}), $$
 
 我们似乎将其可以类比为内积空间(inner product space)中的矢量。
 
 - **态矢量：**
 
-    我们现在终于可以说明符号 $\bra{}$ 与 $\ket{}$ 的含义。这是狄拉克发明的符号，其将概率幅内积的右因子记为 $\ket{\phi}$，称之为右矢(ket)，而 $\bra{\chi}$ 被称为左矢(bra)。如果形象一点理解就是，左矢为行向量，右矢为列向量。
+    我们现在终于可以说明符号 $\bra{}$ 与 $\ket{}$ 的含义。这是狄拉克发明的符号，其将概率幅内积的右因子记为 $\ket{\varphi}$，称之为右矢(ket)，而 $\bra{\chi}$ 被称为左矢(bra)。如果形象一点理解就是，左矢为行向量，右矢为列向量。
 
 - **左矢空间与右矢空间：**
 
-    左矢与右矢分别定义在左矢空间与右矢空间中，这两个空间是对偶空间，即一个 $\bra{\phi}$ 总对应有一个 $\ket{\phi}$，两者均定义了加法和数乘。而后规定内积为 $\braket{\chi|\phi}$，其将一对左矢与右矢映射到概率幅(也即是波函数)所在的空间。内积的性质与定义类似线性代数中复向量空间的定义，可以参考 [Linear Algebra Done Right](https://linear.axler.net/LADR4e.pdf) 当中 $Inner Product Spaces$ 章节。
+    左矢与右矢分别定义在左矢空间与右矢空间中，这两个空间是对偶空间，即一个 $\bra{\varphi}$ 总对应有一个 $\ket{\varphi}$，两者均定义了加法和数乘。而后规定内积为 $\braket{\chi|\varphi}$，其将一对左矢与右矢映射到概率幅(也即是波函数)所在的空间。内积的性质与定义类似线性代数中复向量空间的定义，可以参考 [Linear Algebra Done Right](https://linear.axler.net/LADR4e.pdf) 当中 $Inner Product Spaces$ 章节。
 
 - **基础态与基矢量：**
 
     先前使用施特恩-格拉赫装置纯化的一组基矢量就对应左矢空间或右矢空间中的一组规范正交基，其被称为一组**表象**，由此可以写出态矢量的“坐标”
-    $$ \ket{\phi}=\sum_i \ket{i}\braket{i|\phi}. $$
+    $$ \ket{\varphi}=\sum_i \ket{i}\braket{i|\varphi}. $$
 
 !!! note "算符(operator)"
 
-    算符其实就是映射，其作用在一个右矢上，得到另一个右矢。$$ A\ket{\phi}=\ket{\psi}. $$
+    算符其实就是映射，其作用在一个右矢上，得到另一个右矢。$$ A\ket{\varphi}=\ket{\psi}. $$
     物理上的理解是其状态经过某个仪器测量的影响后，变成了新的状态。
     
     **相关常用概念**：
@@ -408,7 +408,7 @@ $$
 
     - 伴算符(adjoint operator)
 
-        伴算符是作用在左矢上的算符，符号为 $A^\dagger$，实际上就是将 $A$ 的矩阵做共轭转置。任意一个 $A\ket{\phi}$ 总对应有一个 $\bra{\phi}A^\dagger$。
+        伴算符是作用在左矢上的算符，符号为 $A^\dagger$，实际上就是将 $A$ 的矩阵做共轭转置。任意一个 $A\ket{\varphi}$ 总对应有一个 $\bra{\varphi}A^\dagger$。
 
     - 厄米算符(Hermitian operator)
 
@@ -419,10 +419,10 @@ $$
         即算符是等距同构的，满足 $ AA^\dagger = A^\dagger A = I. $
 
     **算符的使用与物理内涵：**
-    $$ \braket{\chi | A | \phi}. $$
-    如果在左矢和右矢中间加上算符 $A$，从数学上看，其就等价于内积 $\langle\chi,A\phi\rangle$，即将右矢经过映射之后与左矢做内积。
+    $$ \braket{\chi | A | \varphi}. $$
+    如果在左矢和右矢中间加上算符 $A$，从数学上看，其就等价于内积 $\langle\chi,A\varphi\rangle$，即将右矢经过映射之后与左矢做内积。
 
-    从物理上解释这个式子，它表示处于 $\phi$ 态的粒子经过仪器 $A$ 作用之后，进入 $\chi$ 态的概率幅。
+    从物理上解释这个式子，它表示处于 $\varphi$ 态的粒子经过仪器 $A$ 作用之后，进入 $\chi$ 态的概率幅。
 
     类比线代知识我们也可以写出在一组规范正交基下算符 $A$ 对应的矩阵：
     $$
@@ -431,7 +431,7 @@ $$
     \end{pmatrix}.
     $$
     根据矩阵就可以将上述式子对应的概率幅展开写出：
-    $$ \braket{\chi | A | \phi}=\sum_{ij}\braket{\chi |i}\braket{i|A|j}\braket{j|\phi}. $$
+    $$ \braket{\chi | A | \varphi}=\sum_{i, j}\braket{\chi |i}\braket{i|A|j}\braket{j|\varphi}. $$
 
 ### 哈密顿矩阵(Hamitonian matrix)
 
@@ -465,7 +465,7 @@ $$
     \end{aligned}\right.
     $$
 
-由于历史和某些其他原因，可以将 $K_{ij}$ 写成 $\frac{1}{i\hbar}hatH_{ij}$，其中分母上的 $i$ 表示虚数单元，则可将上式改写为 $$ U_{ij}=\delta_{ij}+\frac{1}{i\hbar}H_{ij}\Delta t. $$
+由于历史和某些其他原因，可以将 $K_{ij}$ 写成 $\frac{1}{i\hbar}H_{ij}$，其中分母上的 $i$ 表示虚数单元，则可将上式改写为 $$ U_{ij}=\delta_{ij}+\frac{1}{i\hbar}H_{ij}\Delta t. $$
 矩阵形式 $$ U(t+\Delta t, t)=I+\frac{1}{i\hbar}\hat{H}(t)\Delta t. $$
 
 带入原方程可得 $$ \frac{\boldsymbol{\Psi}(t+\Delta t)-\boldsymbol{\Psi}(t)}{\Delta t}=\frac{1}{i\hbar}\hat{H}(t)\boldsymbol{\Psi}(t). $$
@@ -488,58 +488,58 @@ $$
 
 ### 定态(stationary state)
 
-考虑一个静止的电子，其动量的不确定量为零，因此，它的能量 $E_0$ 是确定的。当然，其位置的不确定量就是无穷大，也就是说在各处找到他的概率幅相等，则其概率幅可写做 $$ \phi=ae^{-i\omega t}=ae^{-i\frac{E_0}{\hbar}t}. $$
-式中用到了 $ E_0=\hbar\omega $ 的条件。
+考虑一个静止的电子，其动量的不确定量为零，因此，它的能量 $\varepsilon_0$ 是确定的。当然，其位置的不确定量就是无穷大，也就是说在各处找到他的概率幅相等，则其概率幅可写做 $$ \varphi=ae^{-i\omega t}=ae^{-i\frac{\varepsilon_0}{\hbar}t}. $$
+式中用到了 $ \varepsilon_0=\hbar\omega $ 的条件。
 
-对于这个体系，粒子没有受到任何作用，外界物理条件不变，则哈密顿量与时间无关。因此可以求解薛定谔方程 $$ i\hbar \frac{\partial \phi(t)}{\partial t}=H_{11}\phi(t), $$
-得到 $$ \phi=ae^{-i\frac{H_{11}}{\hbar}t}. $$
+对于这个体系，粒子没有受到任何作用，外界物理条件不变，则哈密顿量与时间无关。因此可以求解薛定谔方程 $$ i\hbar \frac{\partial \varphi(t)}{\partial t}=H_{11}\varphi(t), $$
+得到 $$ \varphi=ae^{-i\frac{H_{11}}{\hbar}t}. $$
 
-我们发现 $ H_{11}=E_0 $，这就是一个定态的能量与哈密顿量关系的特例。更一般地，对于一个定态 $\ket{\eta}$，可以写出 $$ \hat{H}\ket{\eta}=E\ket{\eta}. $$
+我们发现 $ H_{11}=\varepsilon_0 $，这就是一个定态的能量与哈密顿量关系的特例。更一般地，对于一个定态 $\ket{\eta}$，可以写出 $$ \hat{H}\ket{\eta}=\varepsilon\ket{\eta}. $$
 可以发现，一个定态的能量就是哈密顿矩阵的本征值，而该定态就是哈密顿矩阵的本征态矢量。
 
 定态有如下等价表述：
 
 - 外势场 $V(\boldsymbol{r})$ 不随时间变化。
 - 具有确定能量的状态。
-- 体系的空间分布和各物理量取值概率不随时间改变的状态
+- 体系的空间分布和各物理量取值概率不随时间改变的状态。
 
 ### 平均能量
 
-现在，我们想求一个非定态 $\ket{\psi}$ 的能量。我们找到一组特殊的基础态 $\ket{\eta_i}$，其中每个都是定态，具有确定能量 $E_i$。将 $\ket{\psi}$ 投影到其上， $$ \ket{\psi}=\sum_i \ket{\eta_i}\braket{\eta_i | \psi}. $$
-不妨取 $C_i=\braket{\eta_i | \psi}$，则对于态 $\ket{\psi}$，测量到其能量为 $E_i$ 的概率等价于其进入基础态 $\eta_i$ 的概率，有 $$ P_i=C_iC_i^*. $$
-则平均能量 $$ \overline{E}=\sum_i P_iE_i. $$
+现在，我们想求一个非定态 $\ket{\psi}$ 的能量。我们找到一组特殊的基础态 $\ket{\eta_i}$，其中每个都是定态，具有确定能量 $\varepsilon_i$。将 $\ket{\psi}$ 投影到其上， $$ \ket{\psi}=\sum_i \ket{\eta_i}\braket{\eta_i | \psi}. $$
+不妨取 $z_i=\braket{\eta_i | \psi}$，则对于态 $\ket{\psi}$，测量到其能量为 $\varepsilon_i$ 的概率等于其进入基础态 $\eta_i$ 的概率，有 $$ P_i=z_iz_i^*. $$
+则平均能量 $$ \overline{E}=\sum_i P_i\varepsilon_i. $$
 
 我们写成如下形式
 
 $$
 \begin{aligned}
-\overline{E}&=\sum_i C_i^*E_iC_i\\
-&=\sum_i\braket{\psi|\eta_i}E_i\braket{\eta_i|\psi}\\
-&=\bra{\psi}\left\{ \sum_i\ket{\eta_i}E_i\braket{\eta_i|\psi} \right\}\\
-&=\bra{\psi}\left\{ \sum_iE_i\ket{\eta_i}\braket{\eta_i|\psi} \right\}.
+\overline{\varepsilon}&=\sum_i z_i^*\varepsilon_iz_i\\
+&=\sum_i\braket{\psi|\eta_i}\varepsilon_i\braket{\eta_i|\psi}\\
+&=\bra{\psi}\left\{ \sum_i\ket{\eta_i}\varepsilon_i\braket{\eta_i|\psi} \right\}\\
+&=\bra{\psi}\left\{ \sum_i\varepsilon_i\ket{\eta_i}\braket{\eta_i|\psi} \right\}.
 \end{aligned}
 $$
 
-由定态条件 $ \hat{H}\ket{\eta_i}=E_i\ket{\eta_i} $，可将大括号内的式子写成 $$ \hat{H}\sum_i\ket{\eta_i}\braket{\eta_i|\psi}. $$
+由定态条件 $ \hat{H}\ket{\eta_i}=\varepsilon_i\ket{\eta_i} $，可将大括号内的式子写成 $$ \hat{H}\sum_i\ket{\eta_i}\braket{\eta_i|\psi}. $$
 而右边求和后就等于 $\ket{\psi}$。
 
-非常美妙地，最终我们得到 $\ket{\psi}$ 的平均能量 $$ \overline{E}=\braket{\psi|\hat{H}|\psi}. $$
+非常美妙地，最终我们得到 $\ket{\psi}$ 的平均能量 $$ \overline{\varepsilon}=\braket{\psi|\hat{H}|\psi}. $$
 
 ### 哈密顿量的物理含义
 
-取一组表象，不妨假定仅有两个基础态(不一定是定态)，分别为 $\phi_1、\phi_2$，考虑哈密顿矩阵与基础态平均能量之间的关系。
+取一组表象，不妨假定仅有两个基础态(不一定是定态)，分别为 $\ket{1}、\ket{2}$，考虑哈密顿矩阵与基础态平均能量之间的关系。
 
 $$
 \hat{H}=\begin{pmatrix}
 H_{11} & H_{12}\\
 H_{21} & H_{22}
 \end{pmatrix}\\[5mm]
-H_{11}=\braket{\phi_1|\hat{H}|\phi_1}、H_{12}=\braket{\phi_1|\hat{H}|\phi_2}...
+H_{11}=\braket{1|\hat{H}|1}、H_{12}=\braket{1|\hat{H}|2}...
 $$
 
-我们发现 $H_{11}$ 实际上就是态 $\ket{\phi_1}$ 的平均能量，即**哈密顿矩阵对角线给出我们所研究系统各态的平均能量**。
+我们发现 $H_{11}$ 实际上就是态 $\ket{1}$ 的平均能量，即**哈密顿矩阵对角线给出我们所研究系统各态的平均能量**。
 
-至于非对角线上的量，比如 $H_{12}$，它表示的是系统从 $\phi_1$ 跃迁到 $\phi_2$ 的耦合能量，或者说耦合系数，其值越大，表示跃迁发生的概率越大。
+至于非对角线上的量，比如 $H_{12}$，它表示的是系统从 $\ket{1}$ 跃迁到 $\ket{2}$ 的耦合能量，或者说耦合系数，其值越大，表示跃迁发生的概率越大。
 
 最终，恭喜你一步步推导出了薛定谔方程与哈密顿量，并且弄懂了哈密顿量的物理内涵！或许你依然对量子力学抱持怀疑的态度，不认可中间的推演，甚至不认可量子的前提，你可能感觉量子力学好像比相对论还魔幻。没关系，没有人真正“懂”量子。或许今后的漫长岁月里，人类依然无法明晓量子力学那些原理背后的机理(有没有机理都不好说呢)，但是，当我们只关心“可观测”的东西，不去在意它们背后的“混沌”，量子力学依然可以为人所利用，一定程度上这也就足矣。
 
