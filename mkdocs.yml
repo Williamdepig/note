@@ -12,6 +12,9 @@ nav:
       - 热学:
         - physics/General_Physics_1/Thermology/index.md
         - 基本概念: physics/General_Physics_1/Thermology/BasicConcepts.md
+        - 分布律: physics/General_Physics_1/Thermology/DistributiveLaw.md
+      - 普物Ⅰ公式:
+        - physics/General_Physics_1/formula/formula.md
     - 普通物理学Ⅱ: 
       - physics/General_Physics_2/index.md
       - 电磁学:
@@ -34,11 +37,13 @@ nav:
         - cs/system/sys3/chapter1.md
         - cs/system/sys3/chapter2.md
         # - cs/system/sys3/hw2.md
-
+    - OOP:
+      - Project 1:
+        - cs/oop/project1.md
 
 theme:
   name: material
-  favicon: 'assert/ico/favicon.png'
+  favicon: 'assets/ico/favicon.png'
   # icon:
   #   repo: fontawesome/brands/github
   #   logo: material/notebook-outline
@@ -150,10 +155,12 @@ extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
 
-
 # markdown_extensions:
 #   - pymdownx.arithmatex:
 #       generic: true
 
 extra_css:
   - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
+  - https://cdn.tonycrane.cc/jbmono/jetbrainsmono.css
+  - https://cdn.tonycrane.cc/lxgw/lxgwscreen.css
+  - css/custom.css

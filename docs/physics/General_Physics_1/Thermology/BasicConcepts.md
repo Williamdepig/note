@@ -93,4 +93,7 @@ $$
 $$ \frac{1}{2}m\langle v^2 \rangle = \frac{1}{2}m \int_{-\infty}^{\infty}v^2f_M(v)\mathrm{d}v=\frac{1}{2}kT $$
 这就是能量均分定理：**每个自由度的能量均值都等于 $\frac{1}{2}kT$**。当然需要说明的是，如果把振动简化为简谐振动，则其振动动能与势能相等，因此一个振动自由度实则对应 $kT$ 的能量。
 
-### 状态数有限性
+
+$$
+dq = \sigma dz\cdot Rd\varphi = \sigma d(R\tan\theta) \cdot Rd\varphi = \frac{\sigma R^2 }{\cos^2\theta}d\theta d\varphi
+$$

@@ -1,0 +1,728 @@
+\documentclass[12pt,a4paper,oneside]{book}
+\usepackage{ctex}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{float}
+\usepackage{minted}
+\usemintedstyle{xcode}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\tcbuselibrary{minted}
+\tcbuselibrary{breakable}
+\usepackage{pifont}
+\usepackage{amsmath}
+\usepackage{ulem}
+\usepackage{siunitx}
+\usepackage{braket}
+\usepackage{mathrsfs}
+\usepackage{hyperref} 
+\hypersetup{hidelinks,
+    colorlinks=true,
+    allcolors=black,
+    pdfstartview=Fit
+}
+\usepackage{physics}
+
+\title{\textbf{俗说量子\\\normalsize ——俗...俗吗？如俗。}}
+\author{\textit{朱熙哲}}
+\date{2024年 5 月 28 日}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\chapter{世界是随机的！}
+\section{量子力学第一原理}
+各位从目录就可以看出这篇讲义的目的：\ding{172}介绍最基本的量子概念；\ding{173}逐步从矩阵力学（线性代数）推导出薛定谔方程和哈密顿量；\ding{174}阐述哈密顿量的物理概念。希望能启发对量子感兴趣的同学。
+
+不多说，我们快步进入微观世界。在这个世界，任何事件的发生都有概率，也就是说，知晓过去无法确定未来——决定论坍塌了。
+
+因此，我们有以下几条原理：\begin{enumerate}
+    \item 理想实验中，某个事件的发生概率由一个复数 $\varphi$ 表征，$\varphi$ 被称为\textbf{概率幅（Probability Amplitudes）}。
+    \begin{equation}
+        \begin{aligned}
+            P &= \mathrm{probability}\\
+            \varphi &= \mathrm{probability\ amplitude}\\
+            P &= |\varphi|^2
+            \end{aligned}
+    \end{equation}
+    \item 当事件可以以多种方式发生(事实上就是系统有多种可能的状态)，会发生干涉，概率幅叠加。
+    \begin{equation}
+        \begin{aligned}
+            \varphi &= \varphi_1+\varphi_2\\
+            P &= |\varphi_1+\varphi_2|^2
+            \end{aligned}
+    \end{equation}
+    \item 如果在实验过程中对事件发生了\textbf{观测（observation）}，以至于能够确定事件以什么方式发生，那么干涉就会消失，事件整体的发生概率就会变成简单的相加。
+    \begin{equation}
+        P=P_1+P_2=|\varphi_1|^2+|\varphi_2|^2
+    \end{equation}
+\end{enumerate}
+
+\section{电子的理想干涉实验}
+通过“电子的理想干涉实验”，我们可以来简单地认识这个原理。
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/electron_interference.png}
+    \caption{电子的理想干涉实验}
+    \label{interference}
+\end{figure}
+
+如图 \ref{interference}，装置由电子枪、双缝、后障和接收器组成。实验仪器都必须达到量子尺寸，也就是说双缝的宽度要与电子的波长（如果你还记得物质波，你一定知道我在说什么，不知道也没关系，反正是一个非常非常小的，小到现实中难以造出来的值）相当。实验的结果与推论如下：
+\begin{itemize}
+    \item 接收器接收到每个电子时，获得的信号强度是相同的。\\\textbf{结论：}电子总以“粒子”的形式到达。
+    \item 遮住缝 2 或者缝 1，接收器在后障上探测到的强度分布如 $P_1$ 或 $P_2$ 所示，由于每个电子强度相等，则强度分布做归一化之后就是电子到达后障的概率分布。同时打开缝 1 和缝 2。接收器在后障上探测到的强度分布如 $P_{12}$ 所示，显然，$P_{12} \neq P_1 + P_2$，这表明电子在穿过双缝时发生了类似波的\uwave{干涉}。这难以用常识或者经典物理学解释，电子的运动很“神秘”。\\\textbf{结论：}电子并不是要么通过缝 1 要么通过缝 2，否则概率应该相加才对。即当事件可以通过多种方式发生时，我们不能断言过程中事件会以\uwave{某个}方式发生，抽象的说，它可能会发生一种“叠加”。
+    \item 但是在数学上解释这个现象是却相当容易，我们可以用复数 $\varphi$ 来描述电子的概率幅，即缝 1 开放时电子的概率幅为 $\varphi_1$，缝 2 开放的概率幅为 $\varphi_2$，那么电子通过双缝到达后障上某个位置的概率幅为 $\varphi_{12} = \varphi_1 + \varphi_2$，其概率就为 $P_{12} = |\varphi_{12}|^2$，这就是干涉现象的数学描述。\\\textbf{结论：}电子到达后障的概率分布就如同“波”的分布一样。
+\end{itemize}
+
+电子作为粒子总是以完整颗粒的形式到达，但是到达不同位置的概率分布又好像波的分布。这就是电子的\textbf{波粒二象性（wave-particle duality）}。
+\begin{tcolorbox}[before upper={\parindent20pt},title=\textit{德布罗意与物质波},breakable,fontupper=\footnotesize,colframe=blue!40!white,colback=blue!5!white]
+    路易·维克多·德布罗意（Louis Victor de Broglie，1892—1987），一篇博士毕业论文，构思物质波概念，成为波动力学的主要奠基人之一。
+
+    不过事实上，那时对于粒子的运动自然还没有使用概率幅解释，物质波纯粹是通过光的波粒二象性进行合理推演，而后再经实验验证电子具有干涉衍射现象，进而形成的物理概念。注意，把粒子看成波并不是指粒子本身是一列波中振动的质点，而是说一个粒子等价于一个波列。非相对论下物质波波长和频率与动量能量的关系为
+    \begin{equation*}
+        \lambda = \frac{h}{p}=\frac{h}{mv},\quad\nu=\frac{E}{h}=\frac{mc^2}{h}.
+    \end{equation*}
+\end{tcolorbox}
+\section{观测电子}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/watch_electron.png}
+    \caption{电子的观测实验}
+    \label{watch}
+\end{figure}
+在理想干涉实验装置的基础上，如果在缝后增添了一个光源，当电子穿过双缝时，其会散射光源发出的光，使我们可以观测到电子穿过了哪个缝。实验结果如图 \ref{watch} (c) 所示，干涉消失，概率分布变为简单的相加。
+
+还有一件“神秘”的事情，当光源的波长足够大，以至于达到分辨极限（瑞利判据），无法区分电子穿过了哪个缝时，干涉现象又会出现。
+
+\noindent\textbf{结论：}
+要设计一种装置，既确定电子穿过哪条缝，又不破坏电子的干涉图样，这是不可能的。
+
+从更深刻的角度来说，这就是\textbf{不确定性原理（Uncertainty Principle）}在这个理想实验中的显现。\uwave{量子力学的全部都基于不确定性原理的正确性。}
+
+因此对于一个量子系统，我们必须用一种特殊的方式来描述其状态：只有\uwave{观测}了该系统，我们才能确定其状态；否则，我们不应当并且也不去说该系统可能处于某个可以确定状态，事实上我们有一个特殊的名词来描述——此时系统处于\textbf{叠加态}。“薛定谔的猫”实验想阐述的也就是这个意思。
+
+\begin{tcolorbox}[before upper={\parindent20pt},title=\textit{不确定性原理与薛定谔的猫},breakable,fontupper=\footnotesize,colframe=blue!40!white,colback=blue!5!white]
+    海森堡（Werner Karl Heisenberg）的不确定性原理，最终造就了这只不能说是大名鼎鼎，也可以说是无人不晓的小可怜。核心是，当盒子处于关闭状态（没有任何光量子影响盒子内部），不对猫进行观测时，猫处于生与死两种状态的叠加。就好像电子从缝 1 还是缝 2 射出是无法确定的一样，猫是生是死也不是确定的，只有在打开盒子的瞬间，猫才会\uwave{坍缩}到其中一个态。
+
+    其实际上提出这样一个问题：如果微观粒子是不确定的，那由大量微观粒子构成的宏观物体呢？
+
+    至今围绕着这样的问题产生了大量的讨论，不管是胡说八道还是看似有道理的学说，比如平行世界假说（the many-worlds interpretation），其将不同的态分配到不同的宇宙去，因而产生了无穷条世界线。另外还有一些主观唯心的学说彷佛找到了其似乎很“科学”的依据。只是需要明白，观测是客观的，宏观世界是不会轻易发生叠加或弥散的。
+\end{tcolorbox}
+
+\begin{figure*}[h]
+    \centering
+    \includegraphics[width=\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/mio.jpg}
+\end{figure*}
+
+\chapter{不确定性原理}
+上一章我们从物理上稍微解释了一下不确定性原理，本章中将从半定量的角度推出最经典的不确定性关系，即 $\Delta p\cdot\Delta x \ge \hbar/2$。事实上当然远不止这样一种形式和应用，感兴趣的可以自己去查阅。\textbf{注意甄别民科与正统量子丛书！}
+
+\section{位置与动量的测量与预测}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/diffraction.png}
+    \caption{电子的单缝衍射实验}
+    \label{diffraction}
+\end{figure}
+
+考虑这样一个粒子的单缝衍射实验。如图 \ref{diffraction}，假设水平为 $x$ 轴，垂直为 $y$ 轴，考虑水平入射狭缝的粒子。
+
+首先给出光的衍射强度分布
+\begin{equation}
+    I=I_0 \left (\frac{\sin\alpha}{\alpha} \right )^2,\enspace \alpha=\frac{\pi B\sin\theta}{\lambda}.
+\end{equation}
+
+在入射狭缝之前，粒子只有水平方向的动量，垂直分量为零。一旦穿过狭缝，粒子的垂直位置—— $y$ 坐标数值的不确定性（\uwave{注意不是误差}），就被确定到缝宽 $B$ 的量级。但是，此时我们就失去了粒子垂直动量的信息，因为依照实验，粒子当然不会只打到接收屏上对着狭缝的那块区域，粒子在接收屏上的概率分布（也就是强度分布）会依衍射分布，也即粒子出现了垂直动量上的不确定量。
+
+接下来做半定量的解释：
+\begin{itemize}
+    \item $\Delta\theta$ 是从中央主极大到第一极小的半张角，绝大多数粒子最终到达这个区域内，则垂直动量的弥散程度的量级大致就为 $\Delta p_y = p_{x0}\Delta\theta$。
+    \item 依照衍射的分布，$\Delta\theta\approx\sin\Delta\theta=\lambda/B$。
+    \item 垂直位置的不确定量为 $\Delta y = B$。
+    \item 依照物质波的观点，动量与波长的关系为 $p=h/\lambda$。
+\end{itemize}
+
+因此发现，两个不确定量的乘积 $\Delta y \cdot \Delta p_y$ 就为普朗克常量 $h$ 的量级。事实上如果再做更精确一些的计算就能得到\textbf{不确定关系}的不等式：
+\begin{equation}
+     \Delta y \cdot \Delta p_y\ge \frac{\hbar}{2}. 
+\end{equation}
+
+需要注意的是，这种不确定量是物质的一种\uwave{内禀性质}，在这里就是粒子坐标和动量固有的性质，它\uwave{并不来自于测量的误差}。
+
+\begin{tcolorbox}[before upper={\parindent20pt},title=\textit{一些谬误思想},breakable,fontupper=\footnotesize,colframe=blue!40!white,colback=blue!5!white]
+    你可能会认为在到达狭缝的那一刻，我们既知道了粒子的动量，也知道了它的位置，动量与位置都足够精确。但这件事实际上没有意义，不确定关系是用来\textbf{预估未来的状态}的，在这个实验中就是粒子穿过狭缝之后的垂直动量——这是我们失去了的信息。至于已确定粒子穿过狭缝之前的运动和到达狭缝时的位置，这件事已经属于过去，只是一种“事后的测量”，并不是不确定性原理涉及的范畴。
+\end{tcolorbox}
+
+\section{波动观点与粒子观点}
+
+如果我们用概率幅来表征粒子，也依然可以从数学上表征不确定关系，其是自洽的。
+
+考虑一个最经典的正弦波
+\begin{equation}
+    \varphi=Ae^{\textrm{i}(\omega t-\boldsymbol{k \cdot r})}.
+\end{equation}
+
+这就是其在空间中的振幅分布。然后有粒子能量与概率幅频率、动量与波数之间的关系：
+\begin{equation}
+    \begin{aligned}
+        E&=\hbar\omega\\
+        \boldsymbol{p}&=\hbar\boldsymbol{k}.
+      \end{aligned}
+\end{equation}
+
+如果波列为无限长，即我们在任何位置找到粒子的概率相等——粒子位置的不确定性无穷大。显然，这时候这列波的频率是一个定值，当然通过傅里叶变换也可以看出，该波的频谱是一个 $\delta$ 函数，波的频率确定，波数确定，也就是说粒子动量的不确定性趋于零。
+
+如果波列有限长，不妨考虑一维的波，波列的长度 $L$ 就表征了粒子位置的不确定性 $\Delta x$。再对波列做傅里叶变换就可以得到波的频谱宽度，其可以表征波长的不确定性，略加推导就可以得到粒子动量的不确定性。
+
+先得到粒子的频谱函数。由于波列有限长，对于 $x_0$ 位置的波，其只有 $\Delta t=L/v$ 的一段时间窗口，因此有
+\begin{equation}
+    \begin{aligned}
+        f(\omega)&=e^{ikx_0}\int_{-\infty}^{\infty}e^{i\omega_0t}e^{-i\omega t}\mathrm{d}t\\
+        &=e^{ikx_0}\int_{-\Delta t/2}^{\Delta t/2}e^{i\omega_0t}e^{-i\omega t}\mathrm{d}t\\
+        &=e^{ikx_0}\frac{2\sin[(\omega-\omega_0)\Delta t/2]}{\omega-\omega_0}.
+    \end{aligned}
+\end{equation}
+则当 $(\omega-\omega_0)\Delta t/2 =\pi$ 时，取到其角频率的不确定量 $\Delta \omega$。即 
+\begin{equation}
+    \begin{aligned}
+        \Delta \omega &= \frac{2\pi}{\Delta t}=\frac{2\pi v}{L}\\
+        \Rightarrow\frac{1}{L} &= \frac{\Delta k}{2\pi}.
+    \end{aligned}
+\end{equation}
+由于 $L\sim\Delta x$、$\Delta \boldsymbol{k}\sim\Delta\boldsymbol{p}$，因此可以发现从波函数的性质也能半定量地推导出 $\Delta x\cdot\Delta p$ 是 $\hbar$ 的量级，正对应粒子的不确定关系。
+
+\section{简单应用不确定关系求原子半径}
+
+我们曾经学过经典的玻尔的氢原子模型，其应用了角动量量子化的条件；现在我们可以用不确定关系来做相似的推导，以得到氢原子基态能量 $E=-13.60$ eV 和氢原子玻尔半径 $a_0=0.528$ \AA。
+
+假定电子运动半径的量级大致为 $a$ (显然不可能精准获得电子半径)，则电子动量的弥散范围即为 $\hbar/a$，则电子动量的量级也大致就为 $\hbar/a$。因此就有氢原子系统总能量:
+\begin{equation*}
+    E=\frac{p^2}{2m}-\frac{e^2}{4\pi\varepsilon_0 a}=\frac{\hbar^2}{2ma^2}-\frac{e^2}{4\pi\varepsilon_0 a}. 
+\end{equation*}
+
+在稳定状态下，能量趋于最小，这样的物理直觉依然是类似的。$$ \frac{\mathrm{d}E}{\mathrm{d}a}=0. $$
+即可推出氢原子半径，也就是所谓的\textbf{玻尔半径(Bohr radius)} 
+\begin{equation*}
+a=\frac{4\pi\varepsilon_0\hbar^2}{me^2}=0.528\times 10^{-10}=0.528\ \mathrm{\AA}. 
+\end{equation*}
+代入能量可得氢原子基态能量
+\begin{equation*}
+\varepsilon_0=-\frac{me^4}{32\pi^2\varepsilon_0^2\hbar^2}=-13.60\ \mathrm{eV}.
+\end{equation*}
+
+\chapter{量子力学的数学基础}
+本章中我们将逐步引入量子力学中的数学，大致介绍那些抽象的数学符号，用以方便定量讨论量子问题。
+
+\section{概率幅的数学符号}
+
+
+
+我们来回顾电子干涉实验。图 \ref{interference}，对于从电子枪 $s$ 出发，到达后障上 $x$ 处的电子，我们用这种符号表示其概率幅
+\begin{equation}
+    \varphi=\langle x | s \rangle. 
+\end{equation}
+再次强调，这单纯只是一个\uwave{复数}。其中竖线右边的表达式表示初始状态，左边表示终末状态。至于其实际的数学内涵，我们会在下一节讨论，目前暂且先使用物理内涵来理解这种符号。
+
+接下来介绍\textbf{三条原理：}\begin{itemize}
+    \item 粒子通过两种可能路径到达某一给定状态，则总振幅为各自独立的振幅之和。
+    \begin{equation}
+        \langle x | s \rangle_{total} = \langle x | s \rangle_{slit_1}+\langle x | s \rangle_{slit_2}. 
+    \end{equation} 
+    \item 粒子通过特定路径的概率幅可分解为走过每部分路径的概率幅之积。
+    \begin{equation}
+        \langle x | s \rangle_{slit_1}=\langle x | 1 \rangle\langle 1 | s \rangle.
+    \end{equation}
+    \item 两个不存在相互作用的粒子各自达到某一状态的概率幅为各自概率幅之积。
+    \begin{equation}
+        \varphi=\langle a | s_1 \rangle\langle b | s_2 \rangle.
+    \end{equation}
+\end{itemize}
+
+因此从 $s$ 到 $x$ 的振幅就可以写成
+\begin{equation}
+    \langle x | s \rangle= \langle x | 1 \rangle\langle 1 | s \rangle + \langle x | 2 \rangle\langle 2 | s \rangle.
+\end{equation}
+
+由于这些叠加性质，我们只要知道粒子在双缝处的概率幅 $\langle 1 | s \rangle$ 与 $\langle 2 | s \rangle$，就足以推出在后障上的概率幅分布，也就能做到“预测”未来，而不需去考虑到达双缝前的粒子状态。
+
+\section{自旋}
+本章我们要阐述量子力学中一个非常反直觉非常困难的概念——\textbf{自旋（spin）}。为了不产生额外的困惑，我们并不用经典力学来做任何对应，而单进行纯粹的量子力学讨论。不过事实上我们也并不准备细讲自旋，而是通过自旋引入真正重要的东西——态矢量。
+
+自旋是粒子的一个内禀性质(类似质量、电荷量等等)，其取值是量子化的，通过归一化和定义，可以使之取值为整数或半整数。我们仅仅关心\textbf{可观测量（observable）}，不去考虑粒子自旋的物理上的什么更内在的解释。以下通过一个实验来初窥自旋。
+\newpage
+\subsection{施特恩-格拉赫（Stern-Gerlach）装置}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/basic_stern.png}
+    \caption{基础施特恩-格拉赫装置}
+    \label{basic_stern}
+\end{figure}
+
+基础装置如图 \ref{basic_stern}，一束准直射束通过非均匀磁场，磁场和磁场变化梯度均沿 $z$ 向，则对于某类原子，射束会沿 $z$ 向分裂为三束。这类原子被称为\textbf{自旋 1（spin one）} 粒子，其自旋取值为 $+1,0,-1$。
+
+通过该装置会产生三束“纯化”的射束，每束当中的粒子会处于某个\uwave{确定状态}，意思就是如果将其中一束送入第二台完全一致的装置，其不会发生分裂，且偏转方向依然同前一台一样。
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/modified_stern.png}
+    \caption{改进施特恩-格拉赫装置}
+    \label{modified_stern}
+\end{figure}
+
+如图 \ref{modified_stern}，这是改进后的装置，通过设置磁场使得射束先分裂后汇聚。需要说明的是，这种对基础施特恩-格拉赫装置的改装只是一种设想，仅仅为了方便接下来的讨论。我们会通过后面讲述的量子行为来预测其正确性，当然这是建立在其它类似的实际存在的实验基础之上。
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/symbols.png}
+    \caption{改进施特恩-格拉赫装置缩略符号}
+    \label{symbols}
+\end{figure}
+
+此后我们，姑且使用图 \ref{symbols} 的符号表示该装置，竖线表示挡住哪束粒子。这是费曼先生自创的符号，并不是量子力学的专用符号。
+
+接下来考虑两个装置的组合，在以下几种简单情形中，直接可以写出粒子透过第二台装置的比率。
+
+\begin{enumerate}
+    \item 所有穿过第一台装置的粒子，都能穿过第二台。
+    \begin{equation*}
+        \left\{\begin{aligned}
+            &+ \\
+            &0&\boldsymbol{|}\\
+            &-&\boldsymbol{|}
+            \end{aligned}\right\}
+        \left\{\begin{aligned}
+            &+ \\
+            &0&\boldsymbol{|}\\
+            &-&\boldsymbol{|}
+            \end{aligned}\right\}
+    \end{equation*}
+    \item 所有穿过第一台装置的粒子，都不能穿过第二台。
+    \begin{equation*}
+        \left\{\begin{aligned}
+            &+&\boldsymbol{|} \\
+            &0\\
+            &-&\boldsymbol{|}
+            \end{aligned}\right\}
+        \left\{\begin{aligned}
+            &+&\boldsymbol{|} \\
+            &0\\
+            &-&\boldsymbol{|}
+            \end{aligned}\right\}
+    \end{equation*}
+    \item 所有穿过第一台装置的粒子，也都能穿过第二台。其余情况都可以类推得到。
+    \begin{equation*}
+        \left\{\begin{aligned}
+            &+&\boldsymbol{|} \\
+            &0\\
+            &-&\boldsymbol{|}
+            \end{aligned}\right\}
+        \left\{\begin{aligned}
+            &+&\boldsymbol{|} \\
+            &0\\
+            &-&\boldsymbol{|}
+            \end{aligned}\right\}
+    \end{equation*}    
+\end{enumerate}
+
+接下来使用量子力学来描述。如果原子分别通过了一台如先前符号表 \ref{symbols} 中 (b)、(c)、(d) 图所示的装置，则说通过后的粒子处于 +S、0S、-S 态。根据以上两台装置组合实验的结果，可以知道通过粒子的概率幅：
+\begin{enumerate}
+    \item $\braket{+S}{+S} = 1$
+    \item $\braket{0S}{+S} = 0$
+    \item $\braket{0S}{0S} = 1$
+    \item ...
+\end{enumerate}
+当然概率幅的值其实不会是 1，只是由于取平方之后的值（即概率）为 100\%，因此不妨取作 1。
+
+以上实验结果可以由一个三阶方阵表示：
+\begin{equation}
+    \begin{pmatrix}
+        1 & 0 & 0 \\
+        0 & 1 & 0 \\
+        0 & 0 & 1 \\
+    \end{pmatrix}.\label{unit}
+\end{equation}
+
+我们发现，$+\mathrm{S} ,0\mathrm{S} ,-\mathrm{S}$ 三态似乎有一种两两“\uwave{正交}”的关系。
+
+\subsection{过滤粒子}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/modified_stern_tilted.png}
+    \caption{两台不同装置的组合}
+    \label{tilted}
+\end{figure}
+
+接下来考虑两台并不完全一致的装置的组合。如图 \ref{tilted}，T 装置相对于 S 装置在 y 轴上存在偏转。重新考虑前述矩阵。
+
+答案是，此时 $\braket{+T}{+S}\neq 1$ 并且 $\braket{-T}{+S} \neq 0$ 等等，则矩阵应写为：
+\begin{equation}
+\begin{pmatrix}
+\braket{+T}{+S} & \braket{+T}{0S} & \braket{+T}{-S}\\
+\braket{0T}{+S} & \braket{0T}{0S} & \braket{0T}{-S}\\
+\braket{-T}{+S} & \braket{-T}{0S} & \braket{-T}{-S}
+\end{pmatrix}.
+\end{equation}
+
+也就是说，从 S 出射的粒子相对于 S 是纯化的，即处于一个定态，但相对于 T 的状态并不确定，需要重新取向。
+
+如果要求粒子进入某一态的概率，由于取值为复数，即为求概率幅与其\uwave{共轭的乘积}，比如求 +S 态粒子进入 +T 态的概率 
+\begin{equation}
+    |\braket{+T}{+S}|^2=\braket{+T}{+S}\braket{+T}{+S}^*. 
+\end{equation}
+
+由于凡是进入 T 装置的粒子，它只能在 T 的 3 个状态之一被发现，因此有
+\begin{equation}
+\braket{+T}{+S}\braket{+T}{+S}^* + \braket{0T}{+S}\braket{0T}{+S}^*+\braket{-T}{+S}\braket{-T}{+S}^* = 1.\label{normalize}
+\end{equation}
+
+接下来有一个有关粒子“记忆性”的问题，考虑下面的装置
+\begin{equation*}
+    \left\{\begin{aligned}
+        &+ \\
+        &0&\boldsymbol{|}\\
+        &-&\boldsymbol{|}
+        \end{aligned}\right\}_S
+        \left\{\begin{aligned}
+        &+ \\
+        &0&\boldsymbol{|}\\
+        &-&\boldsymbol{|}
+        \end{aligned}\right\}_T
+        \left\{\begin{aligned}
+        &+&\boldsymbol{|} \\
+        &0\\
+        &-&\boldsymbol{|}
+        \end{aligned}\right\}_{S'}
+\end{equation*}
+
+粒子通过一个 +S 装置和一个 +T 装置后，再通过一个 0S 装置(为作区别，在图中用 S' 表示)，会有粒子出射吗？
+
+答案是会的，粒子通过 +T 装置后成为一束纯化射线，之后的行为与先前无关，使用概率幅能很好地理解，
+\begin{equation}
+    \varphi=\braket{0S}{+T}\braket{+T}{+S}.
+\end{equation}
+显然这并不为零，通过 T 的粒子会重新取向，而粒子在进入 T 装置前的状态只决定从 T 装置出射粒子的数目，\uwave{不影响出射粒子的状态与行为}。
+
+\subsection{基础态}
+
+从以上现象中可以归纳出：\begin{itemize}
+    \item 当过滤器性质优良，即能保证过滤后粒子的“纯粹性”(满足先前的单位矩阵 \ref{unit})，则通过过滤，原子体系会被分解到一组\textbf{基础态（base state）}。
+    \item 处于某一基础态的粒子，其未来的行为由该基础态决定，而不依赖于过去的状态。
+    \item 基础态取决于过滤器。比如 +T、0T、-T 与 +S、0S、-S 各是一组基础态。
+\end{itemize}
+
+另外一个事实揭示了基础态的真正重要的性质。考虑以下两组装置
+\begin{equation*}
+\left\{\begin{aligned}
+    &+ \\
+    &0&\boldsymbol{|}\\
+    &-&\boldsymbol{|}
+    \end{aligned}\right\}_S
+    \left\{\begin{aligned}
+    &+ \\
+    &0\\
+    &-
+    \end{aligned}\right\}_T
+    \left\{\begin{aligned}
+    &+&\boldsymbol{|} \\
+    &0\\
+    &-&\boldsymbol{|}
+    \end{aligned}\right\}_{S'}
+\end{equation*}
+\begin{equation*}
+\left\{\begin{aligned}
+        &+ \\
+        &0&\boldsymbol{|}\\
+        &-&\boldsymbol{|}
+        \end{aligned}\right\}_S
+        \left\{\begin{aligned}
+        &+ \\
+        &0\\
+        &-
+        \end{aligned}\right\}_T
+        \left\{\begin{aligned}
+        &+ \\
+        &0&\boldsymbol{|}\\
+        &-&\boldsymbol{|}
+\end{aligned}\right\}_{S'}
+\end{equation*}
+
+对于敞开的 T 装置，S' 中粒子出射比例为多少？事实就是，敞开的 T 没有滤过能力，与不存在一样。
+
+对于这样的装置，概率幅可以如下写出
+\begin{equation}
+    \sum_{i 遍及 T 的基础态}\braket{0S}{i}\braket{i}{+S} = \braket{0S}{+S}=0.
+\end{equation}
+\begin{equation}
+    \sum_{i 遍及 T 的基础态}\braket{+S}{i}\braket{i}{+S} = \braket{+S}{+S}=1.
+\end{equation}
+
+这可以推广到普遍的形式，设 $\varphi$ 和 $\chi$ 为粒子的始态和末态，有以下等式成立
+\begin{equation}
+    \braket{\chi}{\varphi} = \sum_{i} \braket{\chi}{i}\braket{i}{\varphi}.
+\end{equation}
+需要注意， $i$ 遍及某一过滤器的所有基础态，更专业一点的说法是\textbf{在某一组表象（representation）}中的所有基础态。
+
+还有一条性质也理当导出。之前我们写出了一组基础态概率和为 1 的式子 \ref{normalize}：
+\begin{equation*}
+    \braket{+T}{+S}^*\braket{+T}{+S} + \braket{0T}{+S}^*\braket{0T}{+S}+\braket{-T}{+S}^*\braket{-T}{+S} = 1.
+\end{equation*}
+而对于 $\braket{\chi}{\varphi}$，取 $\chi$、$\varphi$ 均为 +S，展开有
+\begin{equation}
+\braket{+S}{+T}\braket{+T}{+S} + \braket{+S}{T}\braket{0T}{+S}+\braket{+S}{-T}\braket{-T}{+S} = 1.
+\end{equation}
+
+观察上式，如果要对三个任意的复数 $\braket{+T}{+S}$、$\braket{0T}{+S}$、$\braket{-T}{+S}$ 均成立，就应有以下式子成立
+\begin{equation}
+    \begin{aligned}
+        \braket{+S}{+T}&=\braket{+T}{+S}^*\\
+        \braket{+S}{0T}&=\braket{0T}{+S}^*\\
+        \braket{+S}{-T}&=\braket{-T}{+S}^*
+        \end{aligned}.
+\end{equation}
+
+\uwave{综上就可以导出概率幅的三条性质：}
+\begin{enumerate}
+    \item 基础态两两正交：$ \braket{j}{i}=\delta_{ij}. $
+    \item 基础态的完全分解：$ \braket{\chi}{\varphi} = \sum\limits_i \braket{\chi}{i}\braket{i}{\varphi}. $
+    \item 共轭对称性：$ \braket{\chi}{\varphi} =\braket{\varphi}{\chi}^*. $
+\end{enumerate}
+
+\begin{tcolorbox}[before upper={\parindent20pt},title=\textit{Kronecker symbol},breakable,fontupper=\footnotesize,colframe=blue!40!white,colback=blue!5!white]
+    这是第二次见到 $\delta_{ij}$ 了。其术语称为克罗内克符号（Kronecker symbol），定义如下：
+    \begin{equation*}
+        \delta_{ij}=\boldsymbol{\hat{e}_i\cdot \hat{e}_j}=\left\{\begin{aligned}
+            1,\quad i=j\\
+            0,\quad i\neq j
+        \end{aligned}\right.       
+    \end{equation*}
+\end{tcolorbox}
+
+\section{态矢量}
+
+或许各位早已发现，比对概率幅的分解
+\begin{equation*}
+    \braket{\chi}{\varphi} = \sum_i \braket{\chi}{i}\braket{i}{\varphi},
+\end{equation*}
+和两个矢量的内积
+\begin{equation*}
+    \boldsymbol{B\cdot A}=\sum_i (\boldsymbol{B\cdot \varepsilon_i})(\boldsymbol{\varepsilon_i\cdot A}),
+\end{equation*}
+这两者似乎完全可以类比。
+
+\begin{itemize}
+    \item \textbf{态矢量（state vector）：}\\    我们现在终于可以说明符号 $\bra{}$ 与 $\ket{}$ 的含义。这是狄拉克发明的符号，其将概率幅内积的右因子记为 $\ket{\varphi}$，称之为右矢(ket)，而 $\bra{\chi}$ 被称为左矢(bra)。如果形象一点理解就是，左矢为行向量，右矢为列向量。
+    \item \textbf{左矢空间与右矢空间：}\\左矢与右矢分别定义在左矢空间与右矢空间中，这两个空间是对偶空间，即一个 $\bra{\varphi}$ 总对应有一个 $\ket{\varphi}$，两者均定义了加法和数乘。而后规定内积为 $\braket{\chi}{\varphi}$，其将一对左矢与右矢映射到概率幅（也即是波函数）所在的空间。内积的性质与定义类似线性代数中复向量空间的定义，可以参考 \href{https://linear.axler.net/LADR4e.pdf}{Linear Algebra Done Right} 当中 \textbf{Inner Product Spaces} 章节。
+    \item \textbf{基础态与基矢量：}\\先前使用施特恩-格拉赫装置纯化的一组基矢量就对应左矢空间或右矢空间中的一组\uwave{规范正交基}，其被称为一组\textbf{表象}，由此可以写出态矢量的“坐标”
+    \begin{equation}
+        \ket{\varphi}=\sum_i \ket{i}\braket{i}{\varphi}.
+    \end{equation}
+\end{itemize}
+\begin{tcolorbox}[before upper={\parindent20pt},title=\textit{算符},breakable,fontupper=\footnotesize,colframe=blue!40!white,colback=blue!5!white]
+    \textbf{算符（operator）}其实就是映射（map），其作用在一个右矢上，得到另一个右矢。
+    \begin{equation}
+        A\ket{\varphi}=\ket{\psi}. 
+    \end{equation}
+
+    物理上的理解是其状态经过某个仪器测量的影响后，变成了新的状态。
+
+    \noindent\textbf{相关常用概念：}
+    \begin{itemize}
+        \item 恒等映射\\我们可以写出以下映射
+        \begin{equation}
+            |=\sum_i\braket{i}{i}. 
+        \end{equation}
+        等号左边即为恒等映射，等号右边就可以看作一个单位矩阵。
+        \item 伴算符（adjoint operator）\\伴算符是作用在左矢上的算符，符号为 $A^\dagger$，实际上就是将 $A$ 的矩阵做共轭转置。任意一个 $A\ket{\varphi}$ 总对应有一个 $\bra{\varphi}A^\dagger$。\textbf{注意}，我们一般认为 $A$ 与右矢结合，而 $A*\dagger$ 与左矢结合。 
+        \item 厄米算符（Hermitian operator）\\即自伴算符，满足 $ A=A^\dagger $。
+        \item 幺正算符（Unitary operator）\\即算符是等距同构的，满足 $ AA^\dagger = A^\dagger A = I. $
+    \end{itemize}
+
+    \noindent\textbf{算符的使用与物理内涵：}
+    \begin{equation*}
+        \mel{\chi}{A}{\varphi}
+    \end{equation*}
+
+    如果在左矢和右矢中间加上算符 $A$，从数学上看，其就等价于内积 $\langle\chi,A\varphi\rangle$，即将右矢经过映射之后与左矢做内积。
+
+    从物理上解释这个式子，它表示处于 $\varphi$ 态的粒子经过仪器 $A$ 作用之后，进入 $\chi$ 态的概率幅。
+
+    类比线代知识我们也可以写出在一组规范正交基下算符 $A$ 对应的矩阵：
+    \begin{equation*}
+        \begin{pmatrix}
+            \mel{i}{A}{j}
+        \end{pmatrix}.    
+    \end{equation*}
+
+    根据矩阵就可以将上述式子对应的概率幅展开写出：
+    \begin{equation}
+        \mel{\chi}{A}{\varphi}=\sum_{i, j}\braket{\chi}{i}\mel{i}{A}{j}\braket{j}{\varphi}.
+    \end{equation}
+\end{tcolorbox}
+
+\section{哈密顿矩阵}
+考虑这样一个特殊的算符 $U(t_2,t_1)$，它表示粒子在装置中从时间 $t_1$ 等待到 $t_2$，则经过该装置后粒子态矢量就可以写作
+\begin{equation}
+    \ket{\psi(t_2)}=U(t_2,t_1)\ket{\psi(t_1)}. 
+\end{equation}
+
+将态矢量在一组表象下的分量写出：
+\begin{equation}
+    \sum_i\braket{i}{\psi(t_2)}=\sum_i\mel{i}{U(t_2,t_1)}{\psi(t_1)}.
+\end{equation}
+
+考虑其中一个分量，取 $ \Psi_i(t)=\braket{i|\psi(t)} $，这就是粒子在该基础态分量下的波函数。令 $t_2 = t_1+\Delta t$，也就是考虑原本处于 $\psi(t)$ 状态的粒子，经过 $\Delta t$ 之后它的状态变化，有
+\begin{equation}
+    \begin{aligned}
+        \Psi_i(t+\Delta t)&=\mel{i}{U(t+\Delta t, t)}{\psi(t)}\\
+        &=\sum_j\braket{i}{U(t+\Delta t, t)|j}\braket{j}{\psi(t)}\\
+        &=\sum_j U_{ij}(t+\Delta t, t)\Psi_j(t).
+        \end{aligned}
+\end{equation}
+其中 $U_{ij}$ 即为矩阵 $U$ 的第 $i$ 行第 $j$ 列分量。
+
+如果将波函数写成矢量形式，可以将上式写成更简单的形式
+\begin{equation}
+    \boldsymbol{\Psi}(t+\Delta t)=U(t+\Delta t, t)\boldsymbol{\Psi}(t).
+\end{equation}
+
+而后，我们考虑将这个算符做一些变换。显然，当 $\Delta t \to 0$，不会发生任何变化，$U$ 是一个单位矩阵。因此对 $U(t+\Delta t, t)$ 的每个分量做零附近的\uwave{一阶展开}，有
+\begin{equation}
+    U_{ij}=\delta_{ij}+K_{ij}\Delta t. 
+\end{equation}
+其中 $\delta_{ij}$ 是之前提到的\uwave{克罗内克符号}。
+
+由于历史和某些其他原因，可以将 $K_{ij}$ 写成 $\frac{1}{i\hbar}H_{ij}$，其中分母上的 $i$ 表示虚数单元，则可将上式改写为
+\begin{equation}
+    U_{ij}=\delta_{ij}+\frac{1}{i\hbar}H_{ij}\Delta t.
+\end{equation}
+
+矩阵形式
+\begin{equation}
+    U(t+\Delta t, t)=I+\frac{1}{i\hbar}\hat{H}(t)\Delta t.
+\end{equation}
+
+带入原方程可得
+\begin{equation}
+    \frac{\boldsymbol{\Psi}(t+\Delta t)-\boldsymbol{\Psi}(t)}{\Delta t}=\frac{1}{i\hbar}\hat{H}(t)\boldsymbol{\Psi}(t).
+\end{equation}
+
+最终我们得到了\textbf{在离散情况下的薛定谔方程}
+\begin{equation}
+    i\hbar\frac{\partial\boldsymbol{\Psi}(t)}{\partial t}=\hat{H}(t)\boldsymbol{\Psi}(t).
+\end{equation}
+
+\begin{tcolorbox}[before upper={\parindent20pt},title=\textit{关于薛定谔与薛定谔方程},breakable,fontupper=\footnotesize,colframe=blue!40!white,colback=blue!5!white]
+    这里我们从矩阵和线代的角度推导出了薛定谔方程，但事实上一个世纪之前的物理学家对于矩阵相当陌生，他们更习惯通过微积分作推导。事实上薛定谔最初写出的方程形式也并非如此，他从哈密顿-雅可比方程着手，研究氢原子外电子的波动力学方程，推导出连续情况下的薛定谔方程形式为
+    \begin{equation*}
+        \hat{\mathscr{H}}\Psi(\boldsymbol{r},t)=\hat{\mathscr{E}}\Psi(\boldsymbol{r},t).
+    \end{equation*}
+    式中 $\hat{\mathscr{H}}$ 就为电子的哈密顿算符，$\hat{\mathscr{E}}$ 为电子的能量算符。在讨论过连续体系的能量算符和哈密顿算符后，也可以将此展开写做
+    \begin{equation*}
+        (-\frac{\hbar^2}{2m}\nabla^2 + V(\boldsymbol{r}))\Psi(\boldsymbol{r},t)=i\hbar \frac{\partial}{\partial t}\Psi(\boldsymbol{r},t).
+    \end{equation*}
+
+    有意思的是，当时物理学家尚不清楚如何诠释波函数，薛定谔试图以电荷密度来诠释波函数的绝对值平方，可并不成功。后来玻恩采用概率幅来诠释波函数，其平方就为量子行为的概率，现实来看成功地诠释了波函数的物理意义，被称为\textbf{哥本哈根诠释}。
+    
+    但是爱因斯坦与薛定谔本人都不赞成这种概率诠释，他们认为世界应当是决定性的。爱因斯坦的那句话，“它不掷骰子”(后人理解为“上帝不掷骰子”)，流传至今；而薛定谔则被戏称为“薛定谔不懂薛定谔方程”。
+
+\end{tcolorbox}
+
+这里我们需要来关心矩阵 $\hat{H}$。它被称为哈密顿量、哈密顿矩阵，或者简称\textbf{哈密顿（hamitonian）}等等，反正都是同一个含义。
+
+对于不同的量子体系，只要得到哈密顿矩阵的形式，剩下的就是解方程。所以关键就在：找出你的\uwave{哈密顿}！
+
+\chapter{哈密顿量}
+
+\section{定态}
+
+考虑一个静止的电子，其动量的不确定量为零，因此，它的能量 $\varepsilon_0$ 是确定的。当然，其位置的不确定量就是无穷大，也就是说在各处找到他的概率幅相等，则其概率幅可写做
+\begin{equation}
+    \psi=ae^{-i\omega t}=ae^{-i\frac{\varepsilon_0}{\hbar}t}.\label{solution1}
+\end{equation}
+式中用到了 $ \varepsilon_0=\hbar\omega $ 的条件。
+
+对于这个体系，粒子没有受到任何作用，外界物理条件不变，则哈密顿量与时间无关。因此可以求解薛定谔方程
+\begin{equation}
+    i\hbar \frac{\partial \psi(t)}{\partial t}=H_{11}\psi(t),
+\end{equation}
+得到
+\begin{equation}
+    \psi=ae^{-i\frac{H_{11}}{\hbar}t}.\label{solution2}
+\end{equation}
+
+比对 \ref{solution1} 和 \ref{solution2}，我们发现 $ H_{11}=\varepsilon_0 $，这就是一个定态的能量与哈密顿量关系的特例。
+
+事实上，一个定态的能量就是该系统的哈密顿矩阵的\uwave{本征值}，而该定态就是哈密顿矩阵的\uwave{本征态矢量}。
+\begin{equation}
+    \hat{H}\ket{\eta}=\varepsilon\ket{\eta}. 
+\end{equation}
+
+定态有如下等价表述：
+\begin{itemize}
+    \item 外势场 $V(\boldsymbol{r})$ 不随时间变化。
+    \item 具有确定能量的状态。
+    \item 体系的空间分布和各物理量取值概率不随时间改变的状态。
+\end{itemize}
+当然表述不止于此，仅列举三个作为参考。
+
+\section{平均能量}
+
+现在，我们想求一个非定态 $\ket{\psi}$ 的能量。我们找到一组特殊的基础态 $\ket{\eta_i}$，其中每个都是定态，具有确定能量 $\varepsilon_i$。将 $\ket{\psi}$ 投影到其上，
+\begin{equation}
+    \ket{\psi}=\sum_i \ket{\eta_i}\braket{\eta_i}{\psi}.
+\end{equation}
+
+不妨取 $z_i=\braket{\eta_i}{\psi}$，则对于态 $\ket{\psi}$，测量到其能量为 $\varepsilon_i$ 的概率等于其进入基础态 $\eta_i$ 的概率，有
+\begin{equation}
+    P_i=z_iz_i^*.
+\end{equation}
+
+则平均能量
+\begin{equation}
+    \overline{E}=\sum_i P_i\varepsilon_i.
+\end{equation}
+我们写成如下形式
+\begin{equation}
+    \begin{aligned}
+        \overline{\varepsilon}&=\sum_i z_i^*\varepsilon_iz_i\\
+        &=\sum_i\braket{\psi}{\eta_i}\varepsilon_i\braket{\eta_i}{\psi}\\
+        &=\bra{\psi}\left\{ \sum_i\ket{\eta_i}\varepsilon_i\braket{\eta_i}{\psi} \right\}\\
+        &=\bra{\psi}\left\{ \sum_i\varepsilon_i\ket{\eta_i}\braket{\eta_i}{\psi} \right\}
+        \end{aligned}.
+\end{equation}
+由定态条件 $ \hat{H}\ket{\eta_i}=\varepsilon_i\ket{\eta_i} $，可将大括号内的式子写成
+\begin{equation}
+    \hat{H}\sum_i\ket{\eta_i}\braket{\eta_i}{\psi}.
+\end{equation}
+而右边求和后就等于 $\ket{\psi}$。
+
+非常美妙地，最终我们得到 $\ket{\psi}$ 的平均能量
+\begin{equation}
+    \overline{\varepsilon}=\mel{\psi}{\hat{H}}{\psi}.
+\end{equation}
+
+\section{哈密顿量的物理含义}
+
+取一组表象，不妨假定仅有两个基础态(不一定是定态)，分别为 $\ket{1}、\ket{2}$，考虑哈密顿矩阵与基础态平均能量之间的关系。
+\begin{equation}
+    \hat{H}=\begin{pmatrix}
+        H_{11} & H_{12}\\
+        H_{21} & H_{22}
+        \end{pmatrix}\\[5mm]
+\end{equation}
+\begin{equation}
+    H_{11}=\mel{1}{\hat{H}}{1},H_{12}=\mel{1}{\hat{H}}{2}...
+\end{equation}
+
+我们发现 $H_{11}$ 实际上就是态 $\ket{1}$ 的平均能量，即\textbf{哈密顿矩阵对角线给出我们所研究的一组表象各态的平均能量}。
+
+至于非对角线上的量，比如 $H_{12}$，它表示的是系统从 $\ket{1}$ 跃迁到 $\ket{2}$ 的耦合能量，或者说耦合系数，其值越大，表示跃迁发生的概率越大。
+
+\section{你觉得你是量子糕手吗？}
+最终，恭喜你一步步推导出了薛定谔方程与哈密顿量，并且弄懂了哈密顿量的物理内涵。或许你依然对量子力学抱持怀疑的态度，可能不认可中间的推演，甚至不认可量子的各种冗杂的前提假设，你可能感觉量子力学好像比相对论还魔幻。没关系，没有人真正“懂”量子。或许今后的漫长岁月里，人类依然无法明晓量子力学那些原理背后的机理（有没有机理都不好说呢！），但是，我们只关心\uwave{可观测}的东西，不去在意它们背后所谓的“混沌”，我们依然可以去利用量子，依然可以过好宏观世界中的生活，而非陷入对世界的怀疑当中。
+
+\textit{Physics has given up on the problem of trying to predict exactly what will happen in a definite circumstance.We can only predict the odds!}
+
+\rightline{\textit{Richard Feynman}}
+\end{document}
