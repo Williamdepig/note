@@ -1,7 +1,9 @@
 #import "@preview/showybox:2.0.4": *
 
-
-
+#let serif-fonts = ("Times New Roman", "Noto Serif CJK SC")
+#let sans-fonts = ("Times New Roman", "Noto Sans CJK SC")
+#let kai-fonts = ("Times New Roman", "LXGW WenKai")
+#let mono-font = "DejaVu Sans Mono"
 
 #let chinese_number(num, standalone: false) = if num < 11 {
     ("零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十").at(num)
@@ -78,7 +80,7 @@
     #align(left)[
         #set list(marker: (strong[•]))
         #set text(
-            font: ("Times New Roman", "KaiTi"),
+            font: kai-fonts,
             style: "normal"
         )
         #[
@@ -100,7 +102,7 @@
         counter.step()
     }
     #set list(marker: (text(emphcolor)[•]))
-    #text(font: ("Times New Roman", "SimHei"), emphcolor)[
+    #text(font: sans-fonts, emphcolor)[
         #leading
         #if counter != none [
             #context counter.display()
@@ -124,7 +126,7 @@
     )[
         #set align(left)
         #set text(
-            font: ("Times New Roman", "FangSong")
+            font: serif-fonts
         )
         #set par(
             first-line-indent: 2em
@@ -183,7 +185,7 @@
         breakable: true,
     )[
         #set text(
-                font: ("Times New Roman", "KaiTi"),
+                font: kai-fonts,
                 style: "normal"
         )
         #change_body_style(counter, emphcolor, leading, supplement, term)
@@ -298,7 +300,7 @@
         },
     )[
         #set text(
-            font: ("Times New Roman", "SimHei"), // 标题字体
+            font: sans-fonts, // 标题字体
             weight: "regular"
         )
         #counter(heading).display()
@@ -306,19 +308,19 @@
     ]
 
     set text(
-        font: ("Times New Roman", "SimSun")
+        font: serif-fonts
     )
 
     show emph: set text(
-        font: ("Times New Roman", "KaiTi"),
+        font: kai-fonts,
     )
 
     show strong: set text(
-        font: ("Times New Roman", "SimHei")
+        font: sans-fonts
     )
 
     show raw: set text(
-        font: ("Consolas")
+        font: mono-font
     )
 
     set enum(

@@ -1,13 +1,13 @@
 #import "template.typ": *
-#import "@preview/physica:0.9.4": *
+#import "@preview/physica:0.9.8": *
 #show: doc => conf(doc)
 #set text(
-    font: ("Times New Roman", "STSong")
+    font: serif-fonts
 )
-#show emph: set text(font: ("Times New Roman", "LXGW WenKai"), weight: "medium")
-#show strong: set text(font: ("Times New Roman", "Noto Sans CJK HK"))
-#show smallcaps: set text(font: "Latin Modern Roman Caps")
-
+#show emph: set text(font: kai-fonts, weight: "medium")
+#show strong: set text(font: sans-fonts)
+#show smallcaps: set text(font: "Libertinus Serif")
+#show link: underline
 #let cp = $cal(P)$
 #let cc = $cal(C)$
 #let cs = $cal(S)$
@@ -287,3 +287,75 @@
         )<logic-error-model>
     ]
 )
+
+
+= 表面码逻辑运算
+== Pauli Frame Tracking
+相关博客：https://pennylane.ai/compilation/pauli-frame-tracking
+
+#def(supplement: "Pauli Frame Tracking")[
+    $ ket(psi_"phys") = F ket(psi_"ideal"). $
+    - $ket(psi_"ideal")$: 理想或者目标量子态。
+    - $ket(psi_"phys")$: 实际物理量子态。
+    - $F$: 已知的 $n$ 比特 Pauli 算子，称为 *Pauli frame* 或 *Pauli record*。
+]
+*Pauli frame tracking* 的核心是量子态只需要在已知 Pauli 误差意义下正确，只要 $F$ 已知，就不要求物理态严格等于理想态。即不立即修正已知 Pauli 误差，而是在经典侧持续记录它对后续门和测量的影响。
+
+#lemma(supplement: " Clifford Hierarchy")[
+    1. $C_1 = cp_n$，即 Clifford 层级的第一层是 Pauli 群。
+    2. $C_2 = cal(N)(cp_n)$，即 Clifford 层级的第二层是 Pauli 群的正规化子，满足 $C_2 = {U | U^dagger P U in cp_n, forall P in cp_n}$。主要有 $H$, $S$, $"CNOT"$, $"CY"$, $"CZ"$ 和 $"SWAP"$ 等门。
+    3. $C_3 = {U | U^dagger P U in C_2, forall P in cp_n}$。主要有 $T$, $"Toffoli"$ 和 $"CCZ"$ 等门。
+    4. ...
+]
+
+#thm( supplement: "Pauli record 的更新规则", 
+    [
+        1. 初始化 qubit 为 $ket(0)$, $F$ 更新为 $I$。
+        2. 对 qubit 的测量结果需要根据测量基的选择和 Pauli record 来纠正：
+            - 测量 $Z$ 基时，若 $F$ 为 $X$ 或 $X Z$，则测量结果翻转，否则不变。
+            - 测量 $X$ 基时，若 $F$ 为 $Z$ 或 $X Z$，则测量结果翻转，否则不变。
+            也就是当 $F$ 与测量基反对易时，测量结果翻转。
+        3. 当施加 Pauli 门时，不在物理上施加，更新 Pauli record: $F'<-F Q.$
+        4. 当施加 Clifford 门时，在物理上施加，并更新 Pauli record: $F'<-C F C^dagger.$
+        5. 当施加 non-Clifford 门时，在物理上施加 Pauli record 并重置 $F$ 为 $I$（称为 _flushing_），然后施加该 non-Clifford 门。
+    ],
+    proof: [
+        1. 测量 Pauli observable $M$：在物理态测量 $bra(psi_"phys") M ket(psi_"phys")$，等价于在理想态测量 $bra(psi_"ideal") F^dagger M F ket(psi_"ideal")$，也就是 $F^dagger M F$，因此测量结果翻转与否取决于 $F$ 与 $M$ 是否对易。
+        2. 施加 Pauli 门 $Q$：如果不在硬件施加 $Q$，而要求理想态已施加 $Q$，即 $ket(psi_"ideal"^') = Q ket(psi_"ideal")$，则有 $ ket(psi_"phys")=F' ket(psi_"ideal"^')=F'Q ket(psi_"ideal") = F ket(psi_"ideal"). $ 因此就可以取 $F' = F Q^dagger = F Q$。
+        3. 施加 Clifford 门 $C$：更新 Pauli record 并不能模拟 Clifford 门的作用，因此必须做物理执行，但由于 Clifford 算子是 Pauli 群的正规化子，因此 Pauli frame 依然可以继续跟踪。$ C ket(psi_"phys") = C F ket(psi_"ideal") = (C F C^dagger) C ket(psi_"ideal"). $ 有新 record $F' = C F C^dagger$。
+        4. 施加 non-Clifford 门 $V$：non-Clifford 的定义表明存在某个 $F$ 使得 $V F V^dagger in.not cp_n$，则更新后的“误差”不能用 Pauli record 来跟踪，因此必须在物理上施加 Pauli record，并重置 $F$ 为 $I$，再施加 $V$。 
+    ]
+)
+
+#figure(
+    image("img/img22.png", width: 100%),
+    caption: "Pauli Frame Tracking Example"
+)
+
+=== 对纠错的意义
+由于 syndrome extraction 之后的 error decoding 阶段要比给量子比特施加物理门要慢得多，维护 Pauli record 相当于异步执行，避免在完成纠错之后才能施加物理门的阻塞问题。
+
+也就说对于尚未确定或者已确定但尚未物理修正的 Pauli 错误 $P$，有 $ket(psi_"phys") = P ket(psi_"ideal")$，可以直接执行 Clifford 门而不需要 decoder 给出纠错结果，稍后再记录 Pauli record $F = C P C^dagger$ 即可。同时也避免了在物理上施加 Pauli 门可能引入的额外误差。
+
+当然，对于 non-Clifford 门，需要在施加前做 flush，完成一次同步。
+
+== Braiding
+_defect-based surface code_
+
+*TBD*
+
+
+== Lattice Surgery
+
+
+*本质是通过改变稳定子测量集合，在相邻逻辑 patch 的边界上执行联合逻辑 Pauli 测量。也就是增删稳定子约束。*
+
+两个独立 patch 原本各编码一个逻辑比特，总编码维数为 2。merge 时，在两个 patch 之间打开新的联合稳定子测量，其中一个独立联合约束等价于测量 $dash(X)_1 dash(X)_2$ 或 $dash(Z)_1 dash(Z)_2$，因此增加一个独立稳定子约束，总维数变为 1。split 则关闭跨边界稳定子，并测量中间一排数据比特，使一个 patch 变成两个 patch，总维数从 1 变为 2。但新出现的逻辑自由度并不是任意未知态，而是由测量结果和原始逻辑态固定，因此不会凭空产生量子信息。
+
+
+
+=== Merge
+
+=== Split
+
+
