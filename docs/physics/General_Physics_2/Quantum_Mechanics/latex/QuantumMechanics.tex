@@ -1,6 +1,7 @@
 \documentclass[12pt,a4paper,oneside]{book}
-\usepackage{ctex}
+\usepackage[fontset=fandol]{ctex}
 \usepackage{graphicx}
+\graphicspath{{../../../../assets/images/physics/General_Physics_2/Quantum_Mechanics/}}
 \usepackage{subfig}
 \usepackage{float}
 \usepackage{minted}
@@ -62,11 +63,10 @@
 通过“电子的理想干涉实验”，我们可以来简单地认识这个原理。
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/electron_interference.png}
+    \includegraphics[width=\linewidth]{electron_interference.png}
     \caption{电子的理想干涉实验}
     \label{interference}
 \end{figure}
-
 如图 \ref{interference}，装置由电子枪、双缝、后障和接收器组成。实验仪器都必须达到量子尺寸，也就是说双缝的宽度要与电子的波长（如果你还记得物质波，你一定知道我在说什么，不知道也没关系，反正是一个非常非常小的，小到现实中难以造出来的值）相当。实验的结果与推论如下：
 \begin{itemize}
     \item 接收器接收到每个电子时，获得的信号强度是相同的。\\\textbf{结论：}电子总以“粒子”的形式到达。
@@ -86,7 +86,7 @@
 \section{观测电子}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/watch_electron.png}
+    \includegraphics[width=\linewidth]{watch_electron.png}
     \caption{电子的观测实验}
     \label{watch}
 \end{figure}
@@ -111,7 +111,7 @@
 
 \begin{figure*}[h]
     \centering
-    \includegraphics[width=\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/mio.jpg}
+    \includegraphics[width=\linewidth]{mio.jpg}
 \end{figure*}
 
 \chapter{不确定性原理}
@@ -120,7 +120,7 @@
 \section{位置与动量的测量与预测}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/diffraction.png}
+    \includegraphics[width=\linewidth]{diffraction.png}
     \caption{电子的单缝衍射实验}
     \label{diffraction}
 \end{figure}
@@ -203,7 +203,7 @@
 在稳定状态下，能量趋于最小，这样的物理直觉依然是类似的。$$ \frac{\mathrm{d}E}{\mathrm{d}a}=0. $$
 即可推出氢原子半径，也就是所谓的\textbf{玻尔半径(Bohr radius)} 
 \begin{equation*}
-a=\frac{4\pi\varepsilon_0\hbar^2}{me^2}=0.528\times 10^{-10}=0.528\ \mathrm{\AA}. 
+a=\frac{4\pi\varepsilon_0\hbar^2}{me^2}=0.528\times 10^{-10}=0.528\ \text{\AA}.
 \end{equation*}
 代入能量可得氢原子基态能量
 \begin{equation*}
@@ -253,7 +253,7 @@ a=\frac{4\pi\varepsilon_0\hbar^2}{me^2}=0.528\times 10^{-10}=0.528\ \mathrm{\AA}
 \subsection{施特恩-格拉赫（Stern-Gerlach）装置}
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/basic_stern.png}
+    \includegraphics[width=\linewidth]{basic_stern.png}
     \caption{基础施特恩-格拉赫装置}
     \label{basic_stern}
 \end{figure}
@@ -264,7 +264,7 @@ a=\frac{4\pi\varepsilon_0\hbar^2}{me^2}=0.528\times 10^{-10}=0.528\ \mathrm{\AA}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/modified_stern.png}
+    \includegraphics[width=0.8\linewidth]{modified_stern.png}
     \caption{改进施特恩-格拉赫装置}
     \label{modified_stern}
 \end{figure}
@@ -273,7 +273,7 @@ a=\frac{4\pi\varepsilon_0\hbar^2}{me^2}=0.528\times 10^{-10}=0.528\ \mathrm{\AA}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/symbols.png}
+    \includegraphics[width=0.8\linewidth]{symbols.png}
     \caption{改进施特恩-格拉赫装置缩略符号}
     \label{symbols}
 \end{figure}
@@ -348,7 +348,7 @@ a=\frac{4\pi\varepsilon_0\hbar^2}{me^2}=0.528\times 10^{-10}=0.528\ \mathrm{\AA}
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.8\linewidth]{/mnt/e/git/note/docs/assets/images/physics/General_Physics_2/Quantum_Mechanics/modified_stern_tilted.png}
+    \includegraphics[width=0.8\linewidth]{modified_stern_tilted.png}
     \caption{两台不同装置的组合}
     \label{tilted}
 \end{figure}
@@ -451,10 +451,10 @@ a=\frac{4\pi\varepsilon_0\hbar^2}{me^2}=0.528\times 10^{-10}=0.528\ \mathrm{\AA}
 
 对于这样的装置，概率幅可以如下写出
 \begin{equation}
-    \sum_{i 遍及 T 的基础态}\braket{0S}{i}\braket{i}{+S} = \braket{0S}{+S}=0.
+    \sum_{i\text{ 遍及 T 的基础态}}\braket{0S}{i}\braket{i}{+S} = \braket{0S}{+S}=0.
 \end{equation}
 \begin{equation}
-    \sum_{i 遍及 T 的基础态}\braket{+S}{i}\braket{i}{+S} = \braket{+S}{+S}=1.
+    \sum_{i\text{ 遍及 T 的基础态}}\braket{+S}{i}\braket{i}{+S} = \braket{+S}{+S}=1.
 \end{equation}
 
 这可以推广到普遍的形式，设 $\varphi$ 和 $\chi$ 为粒子的始态和末态，有以下等式成立
@@ -704,7 +704,7 @@ a=\frac{4\pi\varepsilon_0\hbar^2}{me^2}=0.528\times 10^{-10}=0.528\ \mathrm{\AA}
 
 \section{哈密顿量的物理含义}
 
-取一组表象，不妨假定仅有两个基础态(不一定是定态)，分别为 $\ket{1}、\ket{2}$，考虑哈密顿矩阵与基础态平均能量之间的关系。
+取一组表象，不妨假定仅有两个基础态(不一定是定态)，分别为 $\ket{1}$、$\ket{2}$，考虑哈密顿矩阵与基础态平均能量之间的关系。
 \begin{equation}
     \hat{H}=\begin{pmatrix}
         H_{11} & H_{12}\\

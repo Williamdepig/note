@@ -5,6 +5,24 @@
 #let kai-fonts = ("Times New Roman", "LXGW WenKai")
 #let mono-font = "DejaVu Sans Mono"
 
+// Merge 运算符：圆圈中的粗体直立 M。
+#let mergeop = math.op(
+    box(
+        width: 1.1em,
+        height: 1.1em,
+        baseline: 15%,
+        stroke: 0.06em,
+        radius: 50%,
+        inset: 0pt,
+    )[
+        #align(center + horizon)[
+            #move(dy: -0.06em)[
+                #text(size: 0.72em, weight: "bold")[M]
+            ]
+        ]
+    ]
+)
+
 #let chinese_number(num, standalone: false) = if num < 11 {
     ("零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十").at(num)
 } else if num < 100 {
@@ -116,29 +134,28 @@
 
 // 引文块的颜色
 #let quoteblockcolor = rgb(239, 240, 243)
+#let quotebordercolor = rgb("#2d3137")
 
-// 引文块的格式比较特殊，单独设定
-#let quote(term, author: none) = align(center)[
-    #block(
-        width: 80%,
-        fill: quoteblockcolor,
-        inset: 8pt,
-    )[
-        #set align(left)
-        #set text(
-            font: serif-fonts
-        )
-        #set par(
-            first-line-indent: 2em
-        )
-        #show par: set block(
-            spacing: 0.65em
-        )
-        #term
-        #align(right)[
-            #if author != none [
-                —— #author
-            ]
+// 类似 Markdown `>` 的引用块，可选作者署名。
+#let quote(term, author: none) = block(
+    width: 100%,
+    breakable: true,
+    fill: quoteblockcolor,
+    stroke: (left: 0.25em + quotebordercolor),
+    inset: (x: 1em, y: 0.75em),
+    above: 0.75em,
+    below: 0.75em,
+)[
+    #set align(left)
+    #set text(font: serif-fonts)
+    #set par(
+        first-line-indent: 0pt,
+        spacing: 0.5em,
+    )
+    #term
+    #if author != none [
+        #block(above: 0.5em)[
+            #align(right)[—— #author]
         ]
     ]
 ]

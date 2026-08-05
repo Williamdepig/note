@@ -7,7 +7,7 @@
 #show emph: set text(font: kai-fonts, weight: "medium")
 #show strong: set text(font: sans-fonts)
 #show smallcaps: set text(font: "Libertinus Serif")
-#show link: underline
+#show link: set text(fill: rgb("#330fff"))
 #let cp = $cal(P)$
 #let cc = $cal(C)$
 #let cs = $cal(S)$
@@ -15,6 +15,7 @@
 #let pm = $plus.minus$
 #let ii = $upright(i)$
 #let tensor = $times.o$
+
 
 = 表面码数学原理
 == 稳定子码
@@ -83,7 +84,7 @@
 )
 
 
-== 表面码
+==  Planar-based Surface Code
 #rm[
 你可能见过以下几种表面码的图示：
 #figure(
@@ -147,7 +148,7 @@
     image("img/img8.png", width: 40%),
     caption: [Syndrome and $X$ Error]
 )
-黄色顶点是与错误反对易的一些 $Z$ 型稳定子，他们是错误症候的一部分，依照#ref(<syndrome>)，其满足 $sigma_(S_i)(E) = 1$，它们通常被称为 *激励(excitations)* 或者 *缺陷(defects)*。
+黄色顶点是与错误反对易的一些 $Z$ 型稳定子，他们是错误症候的一部分，依照#ref(<syndrome>)，其满足 $sigma_(S_i)(E) = 1$，它们通常被称为 *激励(excitations)*。
 
 我们把这些相连的错误称为一条 *错误链(error chain)*。可以发现缺陷通常存在于错误链的端点处，因此当错误链成环时，缺陷消失，此时该错误与所有稳定子对易，即 $E in cc(cs)$。
 
@@ -290,9 +291,7 @@
 
 
 = 表面码逻辑运算
-== Pauli Frame Tracking
-相关博客：https://pennylane.ai/compilation/pauli-frame-tracking
-
+== Pauli Frame Tracking #footnote[https://pennylane.ai/compilation/pauli-frame-tracking]
 #def(supplement: "Pauli Frame Tracking")[
     $ ket(psi_"phys") = F ket(psi_"ideal"). $
     - $ket(psi_"ideal")$: 理想或者目标量子态。
@@ -330,7 +329,7 @@
 #figure(
     image("img/img22.png", width: 100%),
     caption: "Pauli Frame Tracking Example"
-)
+)<pauli-frame>
 
 === 对纠错的意义
 由于 syndrome extraction 之后的 error decoding 阶段要比给量子比特施加物理门要慢得多，维护 Pauli record 相当于异步执行，避免在完成纠错之后才能施加物理门的阻塞问题。
@@ -339,23 +338,120 @@
 
 当然，对于 non-Clifford 门，需要在施加前做 flush，完成一次同步。
 
-== Braiding
-_defect-based surface code_
+== Logical Operations in Defect-based Surface Code
+=== Braiding (\*TBD)
+#quote[
+    Extending a defect by measuring out qubits in a line, and passing this extended defect around the second logical qubit defect.
+]
+#lorem(40)
 
-*TBD*
+=== Code Deformation (\*TBD)
+#quote[
+    The boundaries of the code lattice itself are deformed around the defects, performing interactions on the logically encoded qubit.
+]
+#lorem(40)
 
+== Logical Operations in Planar-based Surface Code #footnote[Fowler, Austin G., Matteo Mariantoni, John M. Martinis, and Andrew N. Cleland. 'Surface Codes: Towards Practical Large-Scale Quantum Computation'. Physical Review A 86, no. 3 (September 27, 2012): 032324. https://doi.org/10.1103/PhysRevA.86.032324.]
+=== Transversal Operation
+对于 Planar-based Surface Code，每个逻辑比特定义在独立的一块 patch 上，一种实现 $"CNOT"_L$ 的方法为 *Transversal Operation*，即让一对逻辑比特上的每对物理比特都作用一个 $"CNOT"$ 门。其结果是可能让表面码失去 *nearest-neighboring(NN)* 优势。
+#[
+    #show figure.caption: it => align(center)[
+        #block(width: 80%)[
+            #set align(left)
+            #it
+        ]
+    ]
+    #figure(
+        image("img/img23.png", width: 80%),
+        caption: [Transversal logical $"CNOT"$ operation between two planar logical qubits. The pink interactions denote $"CNOT"$ operations between pairs of physical qubits. Syndrome qubits have been suppressed for clarity.]
+    )<transversal-CNOT>
+]
+=== Lattice Surgery
+// *本质是通过改变稳定子测量集合，在相邻逻辑 patch 的边界上执行联合逻辑 Pauli 测量。也就是增删稳定子约束。*
 
-== Lattice Surgery
+// 两个独立 patch 原本各编码一个逻辑比特，总编码维数为 2。merge 时，在两个 patch 之间打开新的联合稳定子测量，其中一个独立联合约束等价于测量 $dash(X)_1 dash(X)_2$ 或 $dash(Z)_1 dash(Z)_2$，因此增加一个独立稳定子约束，总维数变为 1。split 则关闭跨边界稳定子，并测量中间一排数据比特，使一个 patch 变成两个 patch，总维数从 1 变为 2。但新出现的逻辑自由度并不是任意未知态，而是由测量结果和原始逻辑态固定，因此不会凭空产生量子信息。
 
+==== Merge
+#[
+    #show figure.caption: it => align(center)[
+        #block(width: 80%)[
+            #set align(left)
+            #it
+        ]
+    ]
+    #figure(
+        image("img/img24.png", width: 80%),
+        caption: [Arrangements of physical qubits for rough lattice merging. Left and right continuous surfaces encode separate logical qubits. The extra pink qubits form the intermediate qubit line for the merging operation.]
+    )<rough-merge>
+]
+*Rough merge*#footnote[延续先前的设置，将 $Z$ 稳定子放置在顶点上，$X$ 稳定子放在面心，从而水平方向连接 rough boundary，为 $X_L$ 逻辑算子；垂直方向连接 smooth boundary，为 $Z_L$ 逻辑算子。] 的操作如下：如 #ref(<rough-merge>) 所示，两个表面码块各编码一个独立的逻辑比特，中间一列未初始化的物理比特，按照合并后的表面码结构排列辅助比特和数据比特。将中间数据比特初始化到 $ket(+)$ 态，进行 d 轮纠错，也就是测量稳定子，将整个系统当作一个表面码块来处理纠错。
 
-*本质是通过改变稳定子测量集合，在相邻逻辑 patch 的边界上执行联合逻辑 Pauli 测量。也就是增删稳定子约束。*
+我们将如 #ref(<rough-merge>) 所示的 rough boundary 上的表面码合并称为 *rough merge*；smooth boundary 上的同理称为 *smooth merge*，但中间比特需初始化为 $ket(0)$ 态。
 
-两个独立 patch 原本各编码一个逻辑比特，总编码维数为 2。merge 时，在两个 patch 之间打开新的联合稳定子测量，其中一个独立联合约束等价于测量 $dash(X)_1 dash(X)_2$ 或 $dash(Z)_1 dash(Z)_2$，因此增加一个独立稳定子约束，总维数变为 1。split 则关闭跨边界稳定子，并测量中间一排数据比特，使一个 patch 变成两个 patch，总维数从 1 变为 2。但新出现的逻辑自由度并不是任意未知态，而是由测量结果和原始逻辑态固定，因此不会凭空产生量子信息。
+注意，为了获得合并后的逻辑测量结果，需要新增列稳定子（与粉色 data qubits 交错排列的 ancilla qubits）的第一轮测量结果，后续 d-1 轮用于纠错与保护第一轮测量结果。接下来对合并过程发生的事件进行说明。
 
+#[
+    #show figure.caption: it => align(center)[
+        #block(width: 80%)[
+            #set align(left)
+            #it
+        ]
+    ]
+    #figure(
+        image("img/img25.png", width: 80%),
+        caption: [Lattice qubits for merging two smooth surfaces of distance 2 into a single surface.]
+    )<smooth-merge-demo>
+]
 
+如 #ref(<smooth-merge-demo>) 所示，新增两个稳定子 $ S_1^X = X_2 X_M X_a, quad S_2^X = X_5 X_M X_d, $ 其组合结果为 $ S_1^X S_2^X = X_2 X_5 X_a X_d = X_L^1 X_L^2, $ 由于 $X_2 X_5$ 连接了 rough boundary，其正是 $X_L$ 逻辑算子。也就是说，第一次对这两个稳定子的测量，等价于测量 $X_L^1 X_L^2$，即合并后的逻辑测量结果为两个稳定子测量结果的乘积 $ M_(X X) = s_1 s_2. $
 
-=== Merge
+首次测量之后发生了两件事：1. 由于 $ket(0)$ 不是 $X$ 稳定子的本征态，因此测量后 qubit $M$ 会随机落在 $ket(+)$ 或 $ket(-)$ 上，测量后的逻辑态不确定，并且与测量结果关联；2. 合并后的表面码块的逻辑自由度减少为 1，因此需要将合并前的逻辑态映射到合并后的。
 
-=== Split
+#rm[
+    为什么选择初始化为 $ket(0)$：
 
+    不确定的叠加态 $gamma ket(0) + delta ket(1)$ 将引入新的变量，导致输出的逻辑态依赖于这两个未知系数，无法确定输出逻辑态的具体形式；若选择 $ket(+)$，确定性的测量结果相当于将原逻辑态进行 X 投影测量，可能破坏逻辑信息。
+]
 
+设合并前的逻辑态为 $ket(psi) = alpha ket(0)_L + beta ket(1)_L, quad ket(phi) = alpha' ket(0)_L + beta' ket(1)_L$，两比特输入态 $ket(Psi)=ket(psi)ket(phi)$；设 $M=M_(X X)=s_1 s_2$ 为 $X_L^1 X_L^2$ 逻辑测量结果，对应的投影算符为 $ P_M = (I+(-1)^M X_L^1 X_L^2)/2. $
+
+则归一化后的测后状态为 $ ket(Psi_M) = (P_M ket(Psi))/sqrt(p_M) = (ket(psi)ket(phi) + (-1)^M ket(macron(psi))ket(macron(phi)))/(2 sqrt(p_M)), $
+
+其中 $ket(macron(psi)) = sigma_X ket(psi)$，$p_M = bra(Psi) P_M ket(Psi).$
+
+现在对上式进行展开，不关心全局系数，并设 $lambda = (-1)^M$，有：$ ket(psi)ket(phi) + lambda ket(macron(psi))ket(macron(phi)) = &(alpha alpha' + lambda beta beta' )ket(00) + \ &(alpha beta' + lambda beta alpha' )ket(01) + \ &(beta alpha' + lambda alpha beta' )ket(10) + \ &(beta beta' + lambda alpha alpha' )ket(11). $ 则有测量结果 $M=0$ 时，上式化为：$ (alpha alpha' + beta beta')(ket(00) + ket(11)) + (alpha beta' + beta alpha')(ket(01) + ket(10)), $ 测量结果 $M=1$ 时：$ (alpha alpha' - beta beta')(ket(00) - ket(11)) + (alpha beta' - beta alpha')(ket(01) - ket(10)). $ 这是测量后的逻辑态与测量结果和测量前的逻辑态之间的关系。
+
+另一方面，我们想要得到合并前后的逻辑态之间的映射。新逻辑基态 $ket(0)_"new"$ 需要满足两个约束：1. 属于 $X_L^1 X_L^2$ 的 $lambda=(-1)^M$ 本征值空间；2. $ket(0)_"new"$ 应属于 $Z_L^1 Z_L^2$ 的偶子空间，$ket(1)_"new"$ 应属于 $Z_L^1 Z_L^2$ 的奇子空间。
+
+显然 $"span"(ket(00), ket(11))$ 是 $Z_L^1 Z_L^2=+1$ 的偶子空间，$"span"(ket(01), ket(10))$ 是 $Z_L^1 Z_L^2=-1$ 的奇子空间。因此可以设 $ ket(0)_"new" = a ket(00) + b ket(11), quad ket(1)_"new" = c ket(01) + d ket(10), $ 再根据约束 1，有 $ X_L^1 X_L^2 ket(0)_"new" = lambda ket(0)_"new", $ 即 $ a ket(11) + b ket(00) = lambda (a ket(00) + b ket(11)), $ 从而得到 $a = lambda b$ 和 $b = lambda a$，再根据归一化条件，最终得到 $ ket(0)_"new" &-> 1/sqrt(2)(ket(00) + (-1)^M ket(11)), \ ket(1)_"new" &-> 1/sqrt(2)(ket(01) + (-1)^M ket(10)). $
+
+代回前式，可以得到测量后的逻辑态也可以写为：$ ket(Psi_M) = (alpha alpha' + (-1)^M beta beta')ket(0)_"new" + (alpha beta' + (-1)^M beta alpha')ket(1)_"new". $ 又 $ket(psi) = alpha ket(0)_L + beta ket(1)_L, quad ket(phi) = alpha' ket(0)_L + beta' ket(1)_L$，我们使用 $mergeop$ 作为 merge 操作符号，有 
+$ ket(psi) mergeop ket(phi) = alpha ket(phi) + (-1)^M beta ket(macron(phi)) = alpha' ket(psi) + (-1)^M beta' ket(macron(psi)). $ 当然等式左边是在 $ket(0)_L$ 逻辑基态下的，而右式是在 $ket(0)_"new"$ 逻辑基态下的，二者只是形式上能满足等号。
+
+基于上式，不难发现 merge 操作类似异或，输入 $ket(00)$ 和 $ket(11)$ 时，输出为 $ket(0)_"new"$；输入 $ket(01)$ 和 $ket(10)$ 时，输出为 $ket(1)_"new"$。
+
+==== Split
+#[
+    #show figure.caption: it => align(center)[
+        #block(width: 80%)[
+            #set align(left)
+            #it
+        ]
+    ]
+    #figure(
+        image("img/img26.png", width: 80%),
+        caption: [Lattice qubits for splitting a single surface into two distance-2 rough qubit surfaces.]
+    )<rough-split-demo>
+]
+*Rough split* 的操作如下：1. 在 X basis 上测量中间一列数据比特；2. 停止沿分割线的 Z 稳定子；3. 在两条 rough boundaries 上的 X 稳定子从连接四个 data qubits 变为三个；4. 分别对两个新的表面码块进行 d 轮纠错。
+
+为了保留后续边界上变为三体的 X 稳定子，需要在 X basis 上测量。考虑一个切割前的 X 稳定子 $A_p = X_2 X_3 X_5 X_M$，因为 $[A_p, X_M] = 0$，二者兼容，也就是对 $X_M$ 的测量不会破坏 $A_p$ 的稳定子约束。设 $X_M ket(Psi_M) = x_m ket(Psi_M)$，显然可以得到 $ X_2 X_3 X_5 ket(Psi_M) = X_M ket(Psi_M) = x_m ket(Psi_M), $ 因此三体边界稳定子 $X_2 X_3 X_5$ 的本征值由 $x_m$ 确定，若 $x_m=-1$，可以在 Pauli frame 上记录一个修正。
+
+显然在分裂前，可以在左右两侧画出平行的 $Z_L^1$ 和 $Z_L^2$ 两条平行逻辑 Z 链，二者是同一个逻辑算符 $Z_L^"init"$ 的两种表示。分裂后 $Z_L^1$ 和 $Z_L^2$ 仍继承了 $Z_L^"init"$ 的本征值，因此对于逻辑零态 $Z_L^"init" ket(0)_"init" = + ket(0)_"init"$，有 $Z_L^1 = +1, Z_L^2 = +1$，即分裂后的基态为 $ket(0)ket(0)$；同理可得到 $ket(1)_"init"$ 分裂后为 $ket(1)ket(1)$。因此有映射 $ alpha ket(0) + beta ket(1) -> alpha ket(00) + beta ket(11). $
+
+==== Universal Gate Operations
+/ CNOT gate: 
+
+/ State injection:
+
+/ Hadamard gate:
