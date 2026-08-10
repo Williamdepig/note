@@ -338,18 +338,7 @@
 
 当然，对于 non-Clifford 门，需要在施加前做 flush，完成一次同步。
 
-== Logical Operations in Defect-based Surface Code
-=== Braiding (\*TBD)
-#quote[
-    Extending a defect by measuring out qubits in a line, and passing this extended defect around the second logical qubit defect.
-]
-#lorem(40)
 
-=== Code Deformation (\*TBD)
-#quote[
-    The boundaries of the code lattice itself are deformed around the defects, performing interactions on the logically encoded qubit.
-]
-#lorem(40)
 
 == Logical Operations in Planar-based Surface Code #footnote[Fowler, Austin G., Matteo Mariantoni, John M. Martinis, and Andrew N. Cleland. 'Surface Codes: Towards Practical Large-Scale Quantum Computation'. Physical Review A 86, no. 3 (September 27, 2012): 032324. https://doi.org/10.1103/PhysRevA.86.032324.]
 === Transversal Operation
@@ -450,8 +439,107 @@ $ ket(psi) mergeop ket(phi) = alpha ket(phi) + (-1)^M beta ket(macron(phi)) = al
 显然在分裂前，可以在左右两侧画出平行的 $Z_L^1$ 和 $Z_L^2$ 两条平行逻辑 Z 链，二者是同一个逻辑算符 $Z_L^"init"$ 的两种表示。分裂后 $Z_L^1$ 和 $Z_L^2$ 仍继承了 $Z_L^"init"$ 的本征值，因此对于逻辑零态 $Z_L^"init" ket(0)_"init" = + ket(0)_"init"$，有 $Z_L^1 = +1, Z_L^2 = +1$，即分裂后的基态为 $ket(0)ket(0)$；同理可得到 $ket(1)_"init"$ 分裂后为 $ket(1)ket(1)$。因此有映射 $ alpha ket(0) + beta ket(1) -> alpha ket(00) + beta ket(11). $
 
 ==== Universal Gate Operations
-/ CNOT gate: 
+/ CNOT gate: 准备 Control qubit $ket(C)$, Target qubit $ket(T)$，以及 Ancilla qubit $ket(+)$。总体操作 $ M_(Z Z)(C, A) -> "split" -> M_(X X)(A, T) $
+
+#[
+    #show figure.caption: it => align(center)[
+        #block(width: 80%)[
+            #set align(left)
+            #it
+        ]
+    ]
+    #figure(
+        image("img/img30.png", width: 80%),
+        caption: [Layout of qubits for a CNOT operation with lattice surgery. Control (C) and target (T) surfaces interact by merging and splitting with the intermediate surface (INT).]
+    )<rough-split-demo>
+]
+
 
 / State injection:
 
 / Hadamard gate:
+
+
+== Logical Operations in Defect-based Surface Code
+=== Braiding #footnote[https://doi.org/10.1103/PhysRevA.80.052312] (\*TBD)
+#quote[
+    逻辑 Pauli 算符属于一条路径，移动缺陷改变了逻辑 Pauli 算符所属的同伦类，使逻辑算符在稳定子等价意义下发生变换。
+]
+文章中的定义：
+#table(
+    columns: 5,
+    inset: 5pt,
+    align: (center, left, center, left, left),
+    table.header(
+        [逻辑比特], [如何制造缺陷], [被停止的稳定子], [逻辑 $X_L$], [逻辑 $Z_L$],
+    ),
+    [smooth qubit], [对缺陷内部数据比特做 $X$ 基测量], [$Z$-stabilizer], [两个 smooth 缺陷之间的 $X$ 链], [环绕任一缺陷的 $Z$ 环],
+    [rough qubit], [对缺陷内部数据比特做 $Z$ 基测量], [$X$-stabilizer], [环绕任一缺陷的 $X$ 环], [两个 rough 缺陷之间的 $Z$ 链],
+)
+
+#quote[文章使用 double-defect 来编码一个逻辑比特，但事实上一个 defect 就能提供一个逻辑自由度，double-defect 类似重复码，用比如 $Z_L^1 Z_L^2=+1$ 的约束来限制了一个自由度。]
+#[
+    #show figure.caption: it => align(center)[
+        #block(width: 80%)[
+            #set align(left)
+            #it
+        ]
+    ]
+    #figure(
+        image("img/img27.png", width: 50%),
+        caption: [a.) Smooth defect and surface in the +1 eigenstate of $X_L$. b.) After measuring the center qubit in the $X$ basis, it is possible that three term $X$ stabilizers and $X_L$ stabilizers with negative sign are created (potential locations indicated in green). c.) All signs can be corrected by applying the appropriate single qubit Z operators and chains of $Z$ operators. d.) Measuring and possibly correcting the indicated $Z$ stabilizer using a bit-flip on the center qubit completes the movement of the defect.]
+    )<rough-split-demo>
+]
+
+一个 smooth defect 移动的完整过程：
+1. 扩大缺陷，对在移动路径上的 data qubit 做 $X$ 基测，使其脱离编码面，关闭与其相交的 Z stabilizer，在新边界形成三体或低权重 X-stabilizer。
+2. 对新边界进行若干轮纠错。
+3. 当缺陷扩大到目标位置后，需要把后方原区域重新并入编码面。
+    1. 先测量最终缺陷边界外部以及边界上的所有适当 X stabilizer；
+    2. 保存残余 Z 错误的 syndrome 信息；
+    3. 再测量最终缺陷外部的 Z stabilizer，使尾部区域重新成为编码面；
+    4. 继续纠错，使所有被拖动的 $X_L$ 有一致符号。
+
+/ CNOT operation: CNOT 的 Pauli 共轭关系为：$ X_C &-> X_C X_T \ Z_C &-> Z_C \ X_T &-> X_T \ Z_T &-> Z_C Z_T. $ 接下来用一个 smooth qubit 作为 Control，rough qubit 作为 Target，进行 CNOT 操作。
+
+#[
+    #show figure.caption: it => align(center)[
+        #block(width: 80%)[
+            #set align(left)
+            #it
+        ]
+    ]
+    #figure(
+        image("img/img28.png", width: 50%),
+        caption: [a.) Surface containing a smooth qubit in the +1 eigenstate of $X_L$ and a rough qubit. The lower smooth defect has been braided around the upper rough defect using $X$ measurements. Note that is not possible to complete the braiding in one step as a ring of $X$ measurements corresponds to measurement of the rough qubit in the $X_L$ basis. b.) Via correction of many $Z$ stabilizers, the $X_L$ operator is dragged around the upper rough defect. c.) Additional $X$ measurements extend the defect back to its original position. d.) Further correction of $Z$ stabilizers returns the defects to their original positions but the surface is now in the +1 eigenstate of both the smooth and rough $X_L$ operator.]
+    )<rough-split-demo>
+]
+
+Smooth 控制比特的 $X_C$是连接其两个 smooth 缺陷的 $X$ 链。当其中一个 smooth 缺陷绕 rough 缺陷移动时，这条 $X_C$ 链会被拖动。缺陷回到原位后，新的逻辑路径相对于原路径多出一个环绕 rough 缺陷的 $X$ 环。而环绕 rough 缺陷的 X 环正是目标比特的 $X_T$。
+
+#[
+    #show figure.caption: it => align(center)[
+        #block(width: 80%)[
+            #set align(left)
+            #it
+        ]
+    ]
+    #figure(
+        image("img/img29.png", width: 50%),
+        caption: [a.) Surface containing a smooth defect and a rough defect in the +1 eigenstate of $Z_L$. The lower smooth defect has been braided around the upper rough defect using $X$ measurements, deforming the shape of the rough $Z_L$ operator. b.) By first correcting many $Z$ stabilizers and then performing further $X$ measurements, the smooth defect can be extended back to its original position. c.) A final round of $Z$ stabilizer correction returns the defects to their original configuration but with the state of the surface changed. d.) The $Z_L$ operator shown in part c is equivalent to the tensor product of smooth and rough $Z_L$.]
+    )<rough-split-demo>
+]
+
+Rough 目标比特的 $Z_T$ 是连接两个 rough 缺陷的 Z 链。smooth 缺陷绕 rough 缺陷运动时，$Z_T$ 路径必须不断避开移动中的 smooth 缺陷，因此被持续形变。完成一周后，最终的 Z 路径相对于原来的 $Z_T$，多出一个环绕 smooth 缺陷的 Z 环。
+
+
+== Comparison
+Braiding 优势 
+1. 逻辑作用对局部路径细节不敏感
+2. 拓扑直观
+
+劣势
+1. 空间占用通常明显更大
+2. 路由和并行调度更困难
+3. 同类型 CNOT 不直接
+4. 移动边界的容错实现复杂
