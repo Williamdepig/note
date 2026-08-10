@@ -1,4 +1,4 @@
-#import "../../physics/misc/suface_code/template.typ": *
+#import "@local/physics-note:0.1.0": *
 #import "@preview/physica:0.9.8": *
 #show: doc => conf(doc)
 #set text(font: serif-fonts)

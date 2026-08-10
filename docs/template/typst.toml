@@ -1,0 +1,6 @@
+[package]
+name = "physics-note"
+version = "0.1.0"
+entrypoint = "template.typ"
+authors = ["williamdepig"]
+description = "Personal Typst configuration and theorem environments for physics notes."
