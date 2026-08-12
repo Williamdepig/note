@@ -2,6 +2,8 @@
 #set text(
     font: ("Times New Roman", "Noto Serif CJK SC")
 )
+#let pm = $plus.minus$
+
 
 = MISC
 == 解决由于进程调度导致程序计时不准问题
@@ -19,6 +21,14 @@
 2. 使不同本征态对应不同的仪器指针状态；
 3. 读取仪器，得到经典结果；
 4. 量子态条件性地投影到对应子空间。
+
+复习：厄米算子、谱分解、投影
+
+$ H = sum_lambda lambda P_lambda $ 是 H 的谱分解。
+
+求解 $ H ket(h_i) = h_i ket(h_i) $，得到实数本征值 $h_i$。在有限维空间中，我们总可以选择一组完备的正交归一本征基 ${ket(h_1), ket(h_2), ..., ket(h_n)}$。因此有谱分解 $ H = sum_i h_i ket(h_i)bra(h_i) = sum_i h_i P_(h_i) $，其中 $P_(h_i)=ket(h_i)bra(h_i)$ 是投影算符。
+
+Pauli 算符 $P$ 的特殊性质 $P^2 = I$ 使得本征值 为 $pm 1$，因此谱分解为 $P = P_+ - P_-$，又 $P_+ + P_- = I$，因此 $P_+ = (I + P)/2, P_- = (I - P)/2$。
 
 理论可观测量就是厄米算符 $H$，但对于实验设备的读出，通常是某个与量子比特状态相关的经典信号。
 

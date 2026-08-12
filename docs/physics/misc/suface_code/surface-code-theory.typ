@@ -15,6 +15,7 @@
 #let pm = $plus.minus$
 #let ii = $upright(i)$
 #let tensor = $times.o$
+#let int = $"INT"$
 
 
 = 表面码数学原理
@@ -340,7 +341,7 @@
 
 
 
-== Logical Operations in Planar-based Surface Code #footnote[Fowler, Austin G., Matteo Mariantoni, John M. Martinis, and Andrew N. Cleland. 'Surface Codes: Towards Practical Large-Scale Quantum Computation'. Physical Review A 86, no. 3 (September 27, 2012): 032324. https://doi.org/10.1103/PhysRevA.86.032324.]
+== Logical Operations in Planar-based Surface Code #footnote[https://iopscience.iop.org/article/10.1088/1367-2630/14/12/123011]
 === Transversal Operation
 对于 Planar-based Surface Code，每个逻辑比特定义在独立的一块 patch 上，一种实现 $"CNOT"_L$ 的方法为 *Transversal Operation*，即让一对逻辑比特上的每对物理比特都作用一个 $"CNOT"$ 门。其结果是可能让表面码失去 *nearest-neighboring(NN)* 优势。
 #[
@@ -415,7 +416,7 @@
 显然 $"span"(ket(00), ket(11))$ 是 $Z_L^1 Z_L^2=+1$ 的偶子空间，$"span"(ket(01), ket(10))$ 是 $Z_L^1 Z_L^2=-1$ 的奇子空间。因此可以设 $ ket(0)_"new" = a ket(00) + b ket(11), quad ket(1)_"new" = c ket(01) + d ket(10), $ 再根据约束 1，有 $ X_L^1 X_L^2 ket(0)_"new" = lambda ket(0)_"new", $ 即 $ a ket(11) + b ket(00) = lambda (a ket(00) + b ket(11)), $ 从而得到 $a = lambda b$ 和 $b = lambda a$，再根据归一化条件，最终得到 $ ket(0)_"new" &-> 1/sqrt(2)(ket(00) + (-1)^M ket(11)), \ ket(1)_"new" &-> 1/sqrt(2)(ket(01) + (-1)^M ket(10)). $
 
 代回前式，可以得到测量后的逻辑态也可以写为：$ ket(Psi_M) = (alpha alpha' + (-1)^M beta beta')ket(0)_"new" + (alpha beta' + (-1)^M beta alpha')ket(1)_"new". $ 又 $ket(psi) = alpha ket(0)_L + beta ket(1)_L, quad ket(phi) = alpha' ket(0)_L + beta' ket(1)_L$，我们使用 $mergeop$ 作为 merge 操作符号，有 
-$ ket(psi) mergeop ket(phi) = alpha ket(phi) + (-1)^M beta ket(macron(phi)) = alpha' ket(psi) + (-1)^M beta' ket(macron(psi)). $ 当然等式左边是在 $ket(0)_L$ 逻辑基态下的，而右式是在 $ket(0)_"new"$ 逻辑基态下的，二者只是形式上能满足等号。
+$ ket(psi) mergeop ket(phi) = alpha ket(phi) + (-1)^M beta ket(macron(phi)) = Z_"new"^M (alpha' ket(psi) + (-1)^M beta' ket(macron(psi))). $ 当然等式左边是在 $ket(0)_L$ 逻辑基态下的，而右式是在 $ket(0)_"new"$ 逻辑基态下的，二者只是形式上能满足等号。注意，当测量结果 $M=1$ 时，第二个等号右边需要作用一个在新基下的 Pauli Z，如果是 rough merge，则为 Pauli X，这是由于测量为 1 时，新的基 $ket(1)_"new"$ 对于两个原比特交换不对称（差一个负号）导致的；若测量结果为 0，则不作用该 Pauli 门。
 
 基于上式，不难发现 merge 操作类似异或，输入 $ket(00)$ 和 $ket(11)$ 时，输出为 $ket(0)_"new"$；输入 $ket(01)$ 和 $ket(10)$ 时，输出为 $ket(1)_"new"$。
 
@@ -438,8 +439,113 @@ $ ket(psi) mergeop ket(phi) = alpha ket(phi) + (-1)^M beta ket(macron(phi)) = al
 
 显然在分裂前，可以在左右两侧画出平行的 $Z_L^1$ 和 $Z_L^2$ 两条平行逻辑 Z 链，二者是同一个逻辑算符 $Z_L^"init"$ 的两种表示。分裂后 $Z_L^1$ 和 $Z_L^2$ 仍继承了 $Z_L^"init"$ 的本征值，因此对于逻辑零态 $Z_L^"init" ket(0)_"init" = + ket(0)_"init"$，有 $Z_L^1 = +1, Z_L^2 = +1$，即分裂后的基态为 $ket(0)ket(0)$；同理可得到 $ket(1)_"init"$ 分裂后为 $ket(1)ket(1)$。因此有映射 $ alpha ket(0) + beta ket(1) -> alpha ket(00) + beta ket(11). $
 
-==== Universal Gate Operations
-/ CNOT gate: 准备 Control qubit $ket(C)$, Target qubit $ket(T)$，以及 Ancilla qubit $ket(+)$。总体操作 $ M_(Z Z)(C, A) -> "split" -> M_(X X)(A, T) $
+==== Universal Gate Operations #footnote[为了和论文当中的设定对齐，接下来的部分，我们设定 X 型稳定子在顶点，Z 型稳定子在面心。]
+/ CNOT gate: 准备 Control qubit $ket(C)$, Target qubit $ket(T)$，以及 Ancilla qubit $ket(+)$。总体操作 $ M_(Z Z)(C, int) -> "Split"(C, int) -> M_(X X)(int, T) $
+
+#[
+    #show figure.caption: it => align(center)[
+        #block(width: 80%)[
+            #set align(left)
+            #it
+        ]
+    ]
+    #figure(
+        image("img/img27.png", width: 80%),
+        caption: [Layout of qubits for a CNOT operation with lattice surgery. Control (C) and target (T) surfaces interact by merging and splitting with the intermediate surface (INT).]
+    )<lattice-CNOT>
+]
+设控制比特有逻辑态 $ ket(C) = alpha ket(0)_L + beta ket(1)_L = macron(alpha)ket(+) + macron(beta)ket(-), $ 目标比特 $ ket(T) = alpha' ket(0)_L + beta' ket(1)_L. $ 并且辅助比特 $ket("INT")$ 初始化为 $ket(+)_L$。后续省略逻辑下标 $L$，并设 $M_(Z Z)(C, int) = M$ 为第一次测量结果，$M_(X X)(int, T) = M'$ 为第二次测量结果。
+
+1. $M_(Z Z)(C, int)$: $ ket(C) mergeop ket(int) &= macron(alpha)ket(+)_"new" + (-1)^M macron(beta) ket(-)_"new" \ &= 1/sqrt(2) (macron(alpha) + (-1)^M macron(beta)) ket(0)_"new" + 1/sqrt(2) (macron(alpha) - (-1)^M macron(beta)) ket(1)_"new". $ 当测量结果 $M=1$ 时，在 logical Pauli frame 上记录一个 $X^"new"_L$ 修正，总之有 merge 结果 $ ket(C) mergeop ket(int) = alpha ket(0)_"new" + beta ket(1)_"new". $
+2. $"Split"(C, int)$: d 轮纠错后，进行 split，有结果 $ ket(C' int') = alpha ket(00) + beta ket(11). $
+3. $M_(X X)(int, T)$: $ ket(C' (int' mergeop T)) &= alpha ket(0) tensor (ket(0) tensor ket(T)) + beta ket(1) tensor (ket(1) tensor ket(T)) \ &= alpha ket(0) tensor ket(T) + (-1)^(M') beta ket(1) tensor ket(macron(T)). $
+
+#rm[
+    对最终结果需要做一些说明：
+    1. 根据结果来看，由于 $(-1)^(M')$ 的影响，最终结果不是一个单 CNOT，而是 $ U_"phys"(M') = Z_C^(M') "CNOT". $ 也就是如果 $M'=1$，则需要对控制比特施加一个 Pauli Z 门。当然这可以在 Pauli frame 上记录，而不需要在物理上施加。
+    2. 该 CNOT 逻辑映射可逆，虽然 merge/split 过程不可逆。
+    3. 辅助表面码块 $ket(int)$ 最终合并到了目标比特中，后续若想重新使用，需要一些 code deformation 操作。
+]
+
+/ State injection:
+#[
+    #show figure.caption: it => align(center)[
+        #block(width: 80%)[
+            #set align(left)
+            #it
+        ]
+    ]
+    #figure(
+        image("img/img28.png", width: 80%),
+        caption: [Injecting an arbitrary state $ket(Psi) = alpha ket(0) + beta ket(1)$ into a planar surface: (a) the blue qubits are prepared in $ket(0)$, and the pink is the state $ket(Psi)$; (b) CNOT operations are performed to create $alpha ket(000) + beta ket(111)$ on the pink qubits; (c) measuring stabilizers gives a distance-3 surface in the logical $ket(Psi)$ state; (d) prepare the blue qubits in $ket(0)$; (e) merging in the blue qubits gives a distance-4 surface in $ket(Psi)$.]
+    )<state-injection>
+]
+
+将一个物理 qubit 的任意态 $ket(Psi) = alpha ket(0) + beta ket(1)$ 注入或者说转移到一个表面码块的逻辑态中。如图~#ref(<state-injection>) 所示，从一个物理 magic state 开始，构造三比特纠缠态，然后做稳定子测量化为 d=3 逻辑态，再不断扩张到更大的表面码块。
+
+#lemma(supplement: [表面码逻辑态的制备])[
+    将表面码块的所有物理比特全部初始化为 $ket(0)$，随后进行一次稳定子测量，就能得到逻辑零态 $ket(0)_L$。
+
+    表面码的编码空间需要满足 $S_i^X ket(Psi) = ket(Psi), space S_i^Z ket(Psi) = ket(Psi).$ 显然初态 $ket(0)^(tensor n)$ 能满足 Z 型稳定子的约束条件，我们对 X 型稳定子进行测量，就能将整体投影到 $S^X$ 的 +1 本征子空间。
+
+    稳定子测量的投影算子为 $ P_i^((s_i)) = (I+s_i S_i^X)/2, $ 其中 $s_i = pm 1$ 为测量结果。对于 $s_i=-1$，在 Pauli frame 中记录一个 $Z_i$ 修正，即可将 $s_i$ 同步为 +1，以满足上述稳定子约束。整体投影算子就为 $ P_S^X = product_i P_i^((s_i)). $ 由于 Z、X 稳定子对易，该投影算子不影响 Z 稳定子约束条件。对于逻辑 Z 算子，有 $ Z_L ket(0)^(tensor n) = ket(0)^{tensor n}, $ 则投影后 $ Z_L ket(Psi) = Z_L P_S^X ket(0)^(tensor n) = P_S^X Z_L ket(0)^(tensor n) = P_S^X ket(0)^(tensor n) = ket(Psi). $ 因此 $ket(Psi)$ 就是 $Z_L$ 的+1 本征态，也就是 $ket(0)_L$。
+]<logical-state-preparation>
+
+#ref(<logical-state-preparation>) 的证明能解释如何从 $alpha ket(000) + beta ket(111)$ 经过稳定子测量得到 $alpha ket(0)_L + beta ket(1)_L$，也就是如何将一个物理态注入到表面码的逻辑态中。
+
+首先，这三个粉色数据比特构成了一条 $X_L$ 的最短代表元，即 $X_L ket(0)^(tensor n) = ket(111)_"pink" tensor ket(000)_"others"$。也就是说，初态可以写为 $ ket(Psi) = alpha ket(0)^(tensor n) + beta X_L ket(0)^(tensor n) = (alpha I + beta X_L) ket(0)^(tensor n). $
+
+进行稳定子测量，即做投影 $P_S$，显然其与 $X_L$ 对易，因此有 $ P_S ket(Psi) &= P_S (alpha I + beta X_L) ket(0)^(tensor n) \ &= (alpha I + beta X_L) P_S ket(0)^(tensor n) \ &= (alpha I + beta X_L) ket(0)_L \ &= alpha ket(0)_L + beta ket(1)_L. $ 注意测量包括 #ref(<logical-state-preparation>) 中提及的后续对测量结果的处理和修正，以及多轮纠错。
+
+/ Code deformation: 
+接下来，对于图~#ref(<state-injection>) (d), (e) 中进行 code deformation 扩张的过程，我们进行说明。
+
+扩张过程（忽略纠错）分为三步：1. 新增数据比特 $ket(0)^(tensor m)$；2. 测量稳定子；3. Pauli frame 记录修正。定义这样的扩张过程为一个扩张算符 $ V: cc_3 -> cc_4, $ 我们证明它能满足 $ V(alpha ket(0_3) + beta ket(0_3)) = alpha ket(0_4) + beta ket(0_4). $
+
+#thm(
+    [
+        存在算符 $V: cc_3 -> cc_4$，满足 $V L_3 = L_4 V$，则有 $ V ket(0_3)= ket(0_4), quad V ket(1_3) = ket(1_4). $
+    ],
+    proof: [
+        首先，对于扩张的第一步新增数据比特 $ket(0)^(tensor m)$，可以定义初始扩张算符 $W$  $ W ket(Psi) = ket(Psi) tensor ket(0)^(tensor m) eq.delta ket(Psi'), $ 新的稳定子群 $ cs' = cs_3 union {Z_a_1, Z_a_2, ..., Z_a_m}, $ 新的逻辑 Pauli 算子 $ macron(X)_3^L = X_3^L tensor I, quad macron(Z)_3^L = Z_3^L tensor I. $
+
+        显然其满足 $W X_3^L = macron(X)_3^L W, quad W Z_3^L = macron(Z)_3^L W.$ 此时 X 型稳定子的约束显然无法完全满足，我们要测量新的 Pauli 算子 $M$。对于一部分旧稳定子 $g in cs'$，包括边界的部分三体稳定子和新数据比特初始化为 $ket(0)$ 而引入的单体稳定子，由于 ${g, M}=0$，对这些新稳定子的测量会替换掉原来旧稳定子的约束。
+
+        针对某个新稳定子，设测量结果 $s=pm 1$，有投影算符 $P_s = (I+s M)/2$， 测量导致 $g -> s M$。
+
+        下一步的关键是测量新稳定子后，逻辑算子如何更新。取原逻辑算子 $L$，满足 $ [L, S] = 0, forall S in cs'. $ 构造测量后的逻辑算子 $L'$：
+        1. 若 $[L, M] = 0$，则构造 $ L' = L, $ 显然满足 $L'P_s = P_s L$；
+        2. 若 ${L, M} = 0$，则构造 $ L' = L g, $ 由于 $g, L$ 都与 $M$ 反对易，因此 $[L g, M] = 0$，就可以得到 $ L g P_s ket(Psi') = P_s L g ket(Psi') = P_s L ket(Psi'), $ 则依然满足 $L' P_s = P_s L$。
+
+        综上我们就定义了一个 $L->L'$ 的映射。接下来对所有稳定子 $M_1, M_2, ..., M_r$ 进行测量，并逐步代换逻辑算子 $L^((0)) -> L^((1)) -> ... -> L^((r))$，同时对应投影算子 $P_(s_1)^((1)) -> P_(s_2)^((2)) -> ... -> P_(s_r)^((r))$。再定义 $ K_S = P_(s_r)^((r))...P_(s_1)^((1))W, $ 将每步 $L^((j)) P_(s_j)^((j)) = P_(s_j)^((j)) L^((j-1))$ 代入 $L^((r))K_S$，得到 $ L^((r))K_S = K_S L_3. $ 其中 $L^((r))$ 实际就是 $d=4$ 的逻辑算子 $L_4$。由于投影测量过程若测到 $s=-1$ 会引入负号，因此在 Pauli frame 上记录修正 $R_S$，最终得到 $ V = R_S K_S, $ 满足 $V L_3 = L_4 V$。
+
+        综上我们构造了新的逻辑算子 $L_4$ 和扩张算子 $V$，下一步证明该扩张算子能将 $ket(0_3)$ 映射到 $ket(0_4)$。
+
+        设 $ V ket(0_3) = ket(phi_4), $ 同时作用一个 $Z_4$，有 $ Z_4 ket(phi_4) &= Z_4 V ket(0_3) \ &= V Z_3 ket(0_3) \ &= V ket(0_3) \ &= ket(phi_4), $ 则 $ ket(phi_4) = ket(0_4) $ 得证。
+
+        $ket(1_3)->ket(1_4)$ 的证明类似，最终我们证明了这样的扩张过程满足 $ V(alpha ket(0_3) + beta ket(1_3)) = alpha ket(0_4) + beta ket(1_4). $   
+    ]
+)
+
+/ Hadamard gate: 给出 Transversal Hadamard gate 的实现方法，也就是对每个物理比特都施加 Hadamard 门，即作用变换 $ U_H = H^(tensor n). $
+
+#[
+    #show figure.caption: it => align(center)[
+        #block(width: 80%)[
+            #set align(left)
+            #it
+        ]
+    ]
+    #figure(
+        image("img/img29.png", width: 80%),
+        caption: [Performing a transversal Hadamard gate leaves the original qubit surface (a) in a rotated orientation (b).]
+    )<transversal-Hadamard>
+]
+
+施加 $U_H$ 后，整体编码态的改变 $ket(Psi') = U ket(Psi)$ 会导致表面码块进入新的稳定子约束 $ S' = U_H S U_H^dagger, $ 也就是所有 $X\/Z$ 型稳定子会切换为 $Z\/X$ 型稳定子。则原本在顶点的 X 型稳定子会变为 Z 型稳定子，而原本在面心的 Z 型稳定子会变为 X 型稳定子。在图上看来表面码块像是整体旋转了 90 度，不过实际上比特的位置没有改变，只是每个稳定子需要进行的测量类型改变了。同时 smooth boundary 和 rough boundary 也进行了交换，因为 $X_L$ 和 $Z_L$ 也互换了 $ X_L &-> Z_L^' \ Z_L &-> X_L^'. $ 
+
+如果是独立的表面码块可以直接使用，但如果比特位置固定，又有 merge/split 的操作需求，就需要再通过 code deformation 将表面码块旋转回原来的方向，或者说交换边界类型。
+
 
 #[
     #show figure.caption: it => align(center)[
@@ -450,14 +556,21 @@ $ ket(psi) mergeop ket(phi) = alpha ket(phi) + (-1)^M beta ket(macron(phi)) = al
     ]
     #figure(
         image("img/img30.png", width: 80%),
-        caption: [Layout of qubits for a CNOT operation with lattice surgery. Control (C) and target (T) surfaces interact by merging and splitting with the intermediate surface (INT).]
-    )<rough-split-demo>
+        caption: [Rotating the orientation of a planar qubit: (a) expanding the original surface (pink); (b) contracting to form the rotated surface (pink).]
+    )<code-deformation-rotation>
 ]
 
+图~#ref(<code-deformation-rotation>) (a) 就是上一小节中呈现的表面码扩张过程。图~#ref(<code-deformation-rotation>) (b) 展示收缩过程，其核心是对于要丢弃的 data qubits，直接对其进行 $Z$ 基测量，后续纠错过程中，让原先与这些丢弃比特相连的稳定子断连即可。我们进行简单证明，其逻辑与扩张过程类似。
 
-/ State injection:
+我们依然是要找到收缩算符 $V: cal(H)_R tensor cal(H)_D -> cal(H)_R$，满足 $ V L' = L_3 V, $ 其中 $cal(H)_R$ 是保留的 qubit 的希尔伯特空间，而 $cal(H)_D$ 是丢弃的 qubits 的希尔伯特空间。
 
-/ Hadamard gate:
+构造破坏性测量的算子 $ W_bold(m) = bra(bold(m)_Z)_D, $ 其中 $ket(bold(m)_Z)_D$ 是所有被丢弃的 qubits在 $Z$ 基下测量后的本征态。
+
+对于收缩前的逻辑 $X$ 算子，可以通过乘稳定子使其变形成完全位于最终保留区域中的一条链：$ X_L^' = (X_3 tensor I_D) S_X. $ 由于 $W_bold(m)$ 只作用在 destructed qubits 上，因此 $ W_bold(m) X_L^' = X_3 W_bold(m). $
+
+对于逻辑 $Z$ 算子，其可以写为 $ Z'_L = Z_3 tensor Z_Gamma, $ 其中 $Z_Gamma = product_(q in Gamma) Z_q, quad Gamma subset.eq D.$ 
+
+设测量 $Z_q$ 的结果为 $m_q$，有 $ bra(bold(m)_Z) Z_q = m_q bra(bold(m)_Z), $ 因此 $ W_bold(m) Z'_L = (product_(q in Gamma) m_q)Z_3 W_bold(m). $ 负号可以通过在 Pauli frame 上记录修正 $R$ 来消除。综上我们就构造了收缩算符 $V = R W_bold(m)$，满足 $ V L' = L_3 V. $ 最终扩张和收缩的结果就是使得表面码块在不改变逻辑态的情况下完成 X/Z 稳定子的互换和逻辑算子的互换以及边界类型的互换，唯一的问题是发生了一定格数的平移，可以通过 Swap 来移回原位。
 
 
 == Logical Operations in Defect-based Surface Code
@@ -486,9 +599,9 @@ $ ket(psi) mergeop ket(phi) = alpha ket(phi) + (-1)^M beta ket(macron(phi)) = al
         ]
     ]
     #figure(
-        image("img/img27.png", width: 50%),
+        image("img/smooth-defect-move.png", width: 50%),
         caption: [a.) Smooth defect and surface in the +1 eigenstate of $X_L$. b.) After measuring the center qubit in the $X$ basis, it is possible that three term $X$ stabilizers and $X_L$ stabilizers with negative sign are created (potential locations indicated in green). c.) All signs can be corrected by applying the appropriate single qubit Z operators and chains of $Z$ operators. d.) Measuring and possibly correcting the indicated $Z$ stabilizer using a bit-flip on the center qubit completes the movement of the defect.]
-    )<rough-split-demo>
+    )<smooth-defect-move>
 ]
 
 一个 smooth defect 移动的完整过程：
@@ -510,9 +623,9 @@ $ ket(psi) mergeop ket(phi) = alpha ket(phi) + (-1)^M beta ket(macron(phi)) = al
         ]
     ]
     #figure(
-        image("img/img28.png", width: 50%),
+        image("img/braid-CNOT-X.png", width: 50%),
         caption: [a.) Surface containing a smooth qubit in the +1 eigenstate of $X_L$ and a rough qubit. The lower smooth defect has been braided around the upper rough defect using $X$ measurements. Note that is not possible to complete the braiding in one step as a ring of $X$ measurements corresponds to measurement of the rough qubit in the $X_L$ basis. b.) Via correction of many $Z$ stabilizers, the $X_L$ operator is dragged around the upper rough defect. c.) Additional $X$ measurements extend the defect back to its original position. d.) Further correction of $Z$ stabilizers returns the defects to their original positions but the surface is now in the +1 eigenstate of both the smooth and rough $X_L$ operator.]
-    )<rough-split-demo>
+    )<braid-CNOT-X>
 ]
 
 Smooth 控制比特的 $X_C$是连接其两个 smooth 缺陷的 $X$ 链。当其中一个 smooth 缺陷绕 rough 缺陷移动时，这条 $X_C$ 链会被拖动。缺陷回到原位后，新的逻辑路径相对于原路径多出一个环绕 rough 缺陷的 $X$ 环。而环绕 rough 缺陷的 X 环正是目标比特的 $X_T$。
@@ -525,9 +638,9 @@ Smooth 控制比特的 $X_C$是连接其两个 smooth 缺陷的 $X$ 链。当其
         ]
     ]
     #figure(
-        image("img/img29.png", width: 50%),
+        image("img/braid-CNOT-Z.png", width: 50%),
         caption: [a.) Surface containing a smooth defect and a rough defect in the +1 eigenstate of $Z_L$. The lower smooth defect has been braided around the upper rough defect using $X$ measurements, deforming the shape of the rough $Z_L$ operator. b.) By first correcting many $Z$ stabilizers and then performing further $X$ measurements, the smooth defect can be extended back to its original position. c.) A final round of $Z$ stabilizer correction returns the defects to their original configuration but with the state of the surface changed. d.) The $Z_L$ operator shown in part c is equivalent to the tensor product of smooth and rough $Z_L$.]
-    )<rough-split-demo>
+    )<braid-CNOT-Z>
 ]
 
 Rough 目标比特的 $Z_T$ 是连接两个 rough 缺陷的 Z 链。smooth 缺陷绕 rough 缺陷运动时，$Z_T$ 路径必须不断避开移动中的 smooth 缺陷，因此被持续形变。完成一周后，最终的 Z 路径相对于原来的 $Z_T$，多出一个环绕 smooth 缺陷的 Z 环。

@@ -1,28 +1,27 @@
-#import "@local/mathnote:0.1.0": *
 #import "@preview/ilm:1.4.1": *
-#import "@preview/physica:0.9.6": *
+#import "@preview/physica:0.9.8": *
 
-#show: ilm.with(
-  title: [Quantum Computation and Quantum Information],
-  author: "Michael A. Nielsen, Isaac L. Chuang",
-  // date: datetime(year: 2025, month: 08, day: 08),
-  date: datetime.today(),
-  abstract: [
-    Note by Williamdepig
-  ],
-  // preface: [
-  //   #align(center + horizon)[
-  //     Thank you for using this template #emoji.heart,\ I hope you like it #emoji.face.smile
-  //   ]
-  // ],
-  bibliography: bibliography("refs.bib", style: "ieee"),
-  figure-index: (enabled: true),
-  table-index: (enabled: true),
-  listing-index: (enabled: true),
-  paper-size: "a4",
+// #show: ilm.with(
+//   title: [Quantum Computation and Quantum Information],
+//   author: "Michael A. Nielsen, Isaac L. Chuang",
+//   // date: datetime(year: 2025, month: 08, day: 08),
+//   date: datetime.today(),
+//   abstract: [
+//     Note by Williamdepig
+//   ],
+//   // preface: [
+//   //   #align(center + horizon)[
+//   //     Thank you for using this template #emoji.heart,\ I hope you like it #emoji.face.smile
+//   //   ]
+//   // ],
+//   bibliography: bibliography("refs.bib", style: "ieee"),
+//   figure-index: (enabled: true),
+//   table-index: (enabled: true),
+//   listing-index: (enabled: true),
+//   paper-size: "a4",
   
-  // table-of-contents: none
-)
+//   // table-of-contents: none
+// )
 // = 使用说明
 // == 数学环境块
 // 1. 定义: `#def[]`
@@ -85,7 +84,7 @@
   1. (_discrete Fourier transform_)对于一组复数基向量 $x_0,...,x_N$，变换后：$ y_k equiv 1/sqrt(N)sum_(j=0)^(N-1)x_j e^(2 pi i j k\/N) $
   2. (_quantum Fourier transform_)类似地施加变换（这是一个酉变换），有：$ ket(j) arrow 1/sqrt(N)sum_(k=0)^(N-1)e^(2 pi i j k \/N)ket(k) $
   3. 任意量子态的变换：$ sum_(j=0)^(N-1)x_j ket(j) arrow sum_(k=0)^(N-1) y_k ket(k) $
-2. (_product representation_)定义 $j=j_1 j_2 ... j_n = j_1*2^(n-1)+...+j_n*2^0$ 并且 $0.j_l j_(l+1)...j_m=j_l\/2+...+j_m\/2^(m-l+1) $，则 QFT 也可以表示为：$ ket(j_1...j_n)arrow ((ket(0)+e^(2pi i 0.j_n)ket(1))(ket(0)+e^(2pi i 0.j_(n-1) j_n)ket(1))...(ket(0)+e^(2pi i 0.j_1...j_n)ket(1)))/2^(n\/2) $ 证明逻辑是将 $ket(k)$ 拆分为张量积形式 $sum_(k_1=0)^1...sum_(k_n=0)^1 limits(times.circle)_(l=1)^n ket(k_l)$。
+2. (_product representation_)定义 $j=j_1 j_2 ... j_n = j_1*2^(n-1)+...+j_n*2^0$ 并且 $0.j_l j_(l+1)...j_m=j_l\/2+...+j_m\/2^(m-l+1) $，则 QFT 也可以表示为：$ ket(j_1...j_n)arrow ((ket(0)+e^(2pi i 0.j_n)ket(1))(ket(0)+e^(2pi i 0.j_(n-1) j_n)ket(1))...(ket(0)+e^(2pi i 0.j_1...j_n)ket(1)))/2^(n\/2) $ 证明逻辑是将 $ket(k)$ 拆分为张量积形式 $sum_(k_1=0)^1...sum_(k_n=0)^1 limits(times.o)_(l=1)^n ket(k_l)$。
 3. 制造一个量子门 $R_k=mat(1,0;0,exp(2pi i\/2^k))$，通过以下电路，就能实现 QFT(_product representation_)。#image("../images/qft_circuit.png")
 4. 还需要 $n/2$ 次交换来达到 reverse 的效果，因此该电路使用 $Theta(n^2)$ 量级的门操作，这也就是该量子算法的复杂度。
 5. (_fast Fourier transform_)首先有 $X_k=sum_(n=0)^(N-1)x_n e^(-i (2pi)/N k n)$，取 $omega_N=e^(-i (2pi)/N)$（称为旋转因子），则 $X_k=sum_(n=0)^(N-1)x_n omega_N^(k n)$。拆分为奇偶部分：$ X_k&=sum_(m=0)^(N\/2-1)x_(2m)omega_N^(2k m)+sum_(m=0)^(N\/2-1)x_(2m+1)omega_N^(k (2m+1))\ &=sum_(m=0)^(N\/2-1)x_(2m)omega_(N\/2)^(k m)+omega_N^k sum_(m=0)^(N\/2-1)x_(2m+1)omega_(N\/2)^(k m) \ &equiv E_k + omega_N^k O_k. $ 并且还有关系 $X_(k+N\/2)=E_k-omega_N^k O_k$，则对 $E_k$ 和 $O_k$ 继续分治即可（蝴蝶操作）。
